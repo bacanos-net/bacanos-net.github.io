@@ -14,8 +14,12 @@ header {
 }
 
 header h1 {
-    color: #aaff00;
-    margin-bottom: 0.2em;
+    color: #157c00;
+    background: #aaff00;
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 6px 30px;
+    border-radius: 12px;
 }
 
 header a {
@@ -27,7 +31,7 @@ header a {
 }
 
 header a:hover {
-    color: #fff;
+    color: #000000;
     background: #aaff00;
     padding: 0.2em 0.5em;
     border-radius: 5px;
@@ -35,5 +39,10 @@ header a:hover {
 
 header p {
     color: #d0ffd0;
-    margin: 0.5em 0;
+    margin-bottom: 50px;
+}
+
+.section a {
+    display: block;
+    margin-bottom: 1em;
 }

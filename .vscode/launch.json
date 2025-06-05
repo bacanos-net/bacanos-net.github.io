@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open clashroyale.html",
-            "file": "/home/pipi/Documents/GitHub/prunbo.github.io/clashroyale.html"
+            "name": "Open index.html",
+            "file": "/home/pipi/Documents/GitHub/prunbo.github.io/index.html"
         }
     ]
 }
