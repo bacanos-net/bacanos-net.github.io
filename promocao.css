@@ -1,0 +1,215 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background: linear-gradient(120deg, #f4f4f4 70%, #eaffd0 100%);
+    color: #222;
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 30px 40px 10px 40px;
+    background: #1a1a1a;
+    color: #fff;
+    border-bottom: 4px solid #aaff00;
+}
+
+header .logo h1 {
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+header .search-bar {
+    display: flex;
+    gap: 8px;
+}
+
+header .search-bar input {
+    padding: 12px;
+    border: 2px solid #aaff00;
+    border-radius: 8px 0 0 8px;
+    outline: none;
+    font-size: 16px;
+}
+
+header .search-bar button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    background-color: #aaff00;
+    color: #222;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+header .search-bar button:hover {
+    background-color: #7ee500;
+}
+
+
+nav {
+    background: #292929;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 14px 0;
+    justify-content: center;
+    gap: 40px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 17px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    transition: background 0.2s, color 0.2s;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+    background: #aaff00;
+    color: #222;
+}
+
+
+.banner {
+    text-align: center;
+    padding: 60px 20px 40px 20px;
+    background: linear-gradient(90deg, #aaff00 80%, #eaffd0 100%);
+    color: #222;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 30px;
+}
+
+.banner h2 {
+    font-size: 38px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.banner p {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+
+.games-list {
+    padding: 30px 10px 40px 10px;
+    text-align: center;
+}
+
+.games-list h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #7ee500;
+    letter-spacing: 1px;
+}
+
+.games-list .game {
+    display: inline-block;
+    width: 320px;
+    margin: 24px 18px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
+    overflow: hidden;
+    vertical-align: top;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid #eaffd0;
+}
+
+.games-list .game:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 32px rgba(122,255,0,0.10);
+    border-color: #aaff00;
+}
+
+.games-list .game img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: #eaffd0;
+}
+
+.games-list .game h3 {
+    font-size: 22px;
+    margin: 14px 0 6px 0;
+    color: #222;
+}
+
+.games-list .game p {
+    font-size: 19px;
+    margin: 8px 0 16px 0;
+}
+
+.old-price {
+    color: #bbb;
+    text-decoration: line-through;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.promo-price {
+    color: #7ee500;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.games-list .game button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 0 0 18px 18px;
+    background-color: #aaff00;
+    color: #222;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.games-list .game button:hover {
+    background-color: #7ee500;
+    color: #fff;
+}
+
+
+footer {
+    text-align: center;
+    padding: 28px 10px 18px 10px;
+    background-color: #222;
+    color: #fff;
+    margin-top: 40px;
+    border-top: 4px solid #aaff00;
+}
+
+footer p {
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+footer .social-links a {
+    text-decoration: none;
+    color: #aaff00;
+    margin: 0 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+footer .social-links a:hover {
+    color: #fff;
+}
