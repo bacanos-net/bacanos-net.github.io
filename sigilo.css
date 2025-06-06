@@ -13,6 +13,18 @@ header {
     border-bottom: 4px solid #b3001b; 
 }
 
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+header .logo img {
+    height: 60px;
+    width: auto;
+    display: block;
+}
+
 header h1 {
     color: #b3001b;
     margin-bottom: 0.2em;
