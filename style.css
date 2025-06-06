@@ -14,16 +14,28 @@ body {
 header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     padding: 30px 40px 10px 40px;
     background: #1a1a1a;
     color: #fff;
     border-bottom: 4px solid #aaff00;
 }
 
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 header .logo h1 {
     font-size: 30px;
     letter-spacing: 2px;
+}
+
+header .logo img {
+    height: 60px;
+    width: auto;
+    display: block;
 }
 
 header .search-bar {
@@ -128,10 +140,10 @@ nav ul li a:hover {
     text-align: center;
 }
 
-.games-list h2 {
+.games-list h1 {
     font-size: 30px;
     margin-bottom: 30px;
-    color: #7ee500;
+    color: #4e8d00;
     letter-spacing: 1px;
 }
 
