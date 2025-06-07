@@ -11,6 +11,7 @@
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
 
 </head>
+<script src="script.js"></script>
 <body>
     <header>
         <div class="logo">
@@ -18,6 +19,7 @@
         </div>
         <div class="search-bar">
             <input type="text" placeholder="Buscar jogos...">
+            <div id="suggestions" class="suggestions"></div>
             <button>Buscar</button>
         </div>
     </header>
@@ -33,7 +35,8 @@
     </nav>
 
     <section class="games-list">
-        <h1>Todos os jogos, só aqui!!!</h1>
+            <h1 id="allgames-title">Todos os jogos, só aqui!!!</h1>
+            <div id="search-error" style="display:none;color:#000000;font-weight:bold;"></div>
         <div class="game">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrVNzn3aErkS59Ym_qhqbZYFd8laElFfxviQ&s" alt="Terraria">
             <h3>Terraria</h3>

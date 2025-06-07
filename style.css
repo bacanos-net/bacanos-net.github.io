@@ -10,6 +10,24 @@ body {
     color: #222;
 }
 
+.suggestions {
+    position: absolute;
+    background: #fff;
+    color: #222;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 250px;
+    z-index: 10;
+    display: none;
+}
+.suggestions div {
+    padding: 8px;
+    cursor: pointer;
+}
+.suggestions div:hover {
+    background: #eaffd0;
+}
 
 header {
     display: flex;
