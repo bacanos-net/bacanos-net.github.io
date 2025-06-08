@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="jolly_roger_sapofrog.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 </head>
 <body>
     <header>
@@ -50,12 +51,15 @@
     <p><strong>Gêneros:</strong> <span id="detalhe-generos"></span></p>
     <p><strong>Data de lançamento:</strong> <span id="detalhe-release"></span></p>
     <p><strong>Preço:</strong> <span id="detalhe-preco"></span></p>
+    <!-- O container de downloads será criado via JS -->
   </div>
 
 <script>
 const listaJogos = document.getElementById('lista-jogos');
 const filterSelect = document.getElementById('filter');
 const buscaInput = document.getElementById('busca');
+const detalhesDiv = document.getElementById('detalhes');
+const voltarBtn = document.getElementById('voltar');
 
 let paginaAtual = 1;
 let jogos = [];
@@ -68,15 +72,73 @@ function criarCard(jogo) {
     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg" alt="${jogo.name}" />
     <div class="info">
       <div class="title">${jogo.name}</div>
+      <button class="comprar-btn">Comprar / Download</button>
     </div>
   `;
-  card.onclick = () => mostrarDetalhes(jogo);
+  // Apenas o botão abre os detalhes
+  card.querySelector('.comprar-btn').onclick = (e) => {
+    e.stopPropagation();
+    mostrarDetalhes(jogo);
+  };
   return card;
 }
 
-function mostrarDetalhes(jogo) {
+async function mostrarDetalhes(jogo) {
+  detalhesDiv.style.display = 'block';
+  listaJogos.style.display = 'none';
+  document.getElementById('detalhe-titulo').textContent = jogo.name;
+  document.getElementById('detalhe-generos').textContent = (jogo.genres || []).join(', ');
+  document.getElementById('detalhe-release').textContent = jogo.release_date || 'Desconhecida';
+  document.getElementById('detalhe-preco').textContent = jogo.price || 'Indisponível';
+  document.getElementById('detalhe-img').src = jogo.header_image || `https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg`;
+  document.getElementById('detalhe-descricao').textContent = jogo.short_description || 'Sem descrição disponível';
 
-  detalhes.style.display = 'block';
+  // Remove container antigo se existir
+  let linksContainer = document.getElementById('detalhe-downloads');
+  if (linksContainer) linksContainer.remove();
+
+  linksContainer = document.createElement('div');
+  linksContainer.id = 'detalhe-downloads';
+  linksContainer.innerHTML = '<p><strong>Downloads:</strong></p>';
+
+  try {
+    const res = await fetch('https://hydralinks.pages.dev/sources/onlinefix.json');
+    const data = await res.json();
+
+    // Fuzzy match para TODOS os jogos
+    const fuse = new Fuse(Object.keys(data), {
+      includeScore: true,
+      threshold: 0.4,
+    });
+    const result = fuse.search(jogo.name);
+    let matchedName = result.length > 0 ? result[0].item : jogo.name;
+    const links = data[matchedName];
+
+    if (links && links.length > 0) {
+      links.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.textContent = link.name;
+        a.target = '_blank';
+        a.style.display = 'block';
+        linksContainer.appendChild(a);
+      });
+    } else {
+      linksContainer.innerHTML += '<p>Nenhum link disponível.</p>';
+    }
+  } catch (e) {
+    linksContainer.innerHTML += '<p>Erro ao buscar links de download.</p>';
+  }
+
+  detalhesDiv.appendChild(linksContainer);
+}
+
+// Botão voltar funcional
+if (voltarBtn) {
+  voltarBtn.onclick = () => {
+    detalhesDiv.style.display = 'none';
+    listaJogos.style.display = '';
+  };
 }
 
 function popularFiltro() {
@@ -91,12 +153,8 @@ function popularFiltro() {
 
 function filtrarJogos() {
   const filtro = filterSelect.value;
-  const busca = buscaInput.value.trim().toLowerCase(); // ADICIONADO
   listaJogos.innerHTML = '';
   let filtrados = filtro === 'todos' ? jogos : jogos.filter(j => (j.genres || []).includes(filtro));
-  if (busca) {
-    filtrados = filtrados.filter(jogo => jogo.name.toLowerCase().includes(busca));
-  }
   filtrados.forEach(jogo => {
     listaJogos.appendChild(criarCard(jogo));
   });
@@ -105,8 +163,13 @@ function filtrarJogos() {
 async function carregarJogos() {
   listaJogos.textContent = 'Carregando...';
   try {
-    // Busca os jogos da página atual
-    const res = await fetch(`https://prunbo-github-io.onrender.com/api/jogo?page=${paginaAtual}&limit=20`);
+    // Busca os jogos da página atual, com busca global se houver termo
+    const busca = buscaInput.value.trim();
+    let url = `https://prunbo-github-io.onrender.com?page=${paginaAtual}&limit=20`;
+    if (busca) {
+      url += `&search=${encodeURIComponent(busca)}`;
+    }
+    const res = await fetch(url);
     if (!res.ok) throw new Error('Falha ao carregar jogos');
     jogos = await res.json();
 
@@ -125,21 +188,21 @@ async function carregarJogos() {
 }
 
 filterSelect.addEventListener('change', () => {
-  buscaInput.value = '';
-  filtrarJogos();
+  carregarJogos();
 });
 
-buscaInput.addEventListener('input', filtrarJogos);
+buscaInput.addEventListener('input', () => {
+  paginaAtual = 1;
+  carregarJogos();
+});
 
 document.getElementById('proximo').onclick = () => {
   paginaAtual++;
-  buscaInput.value = '';
   carregarJogos();
 };
 document.getElementById('anterior').onclick = () => {
   if (paginaAtual > 1) {
     paginaAtual--;
-    buscaInput.value = '';
     carregarJogos();
   }
 };
@@ -149,19 +212,18 @@ const headerBuscaInput = document.getElementById('header-busca');
 const headerBuscarBtn = document.getElementById('header-buscar');
 
 if (headerBuscaInput && buscaInput) {
-  // Ao digitar no header, filtra a lista
   headerBuscaInput.addEventListener('input', () => {
     buscaInput.value = headerBuscaInput.value;
-    filtrarJogos();
+    paginaAtual = 1;
+    carregarJogos();
   });
-  // Ao clicar no botão do header, filtra a lista
   if (headerBuscarBtn) {
     headerBuscarBtn.addEventListener('click', () => {
       buscaInput.value = headerBuscaInput.value;
-      filtrarJogos();
+      paginaAtual = 1;
+      carregarJogos();
     });
   }
-  // Sincroniza busca da lista com o header
   buscaInput.addEventListener('input', () => {
     headerBuscaInput.value = buscaInput.value;
   });

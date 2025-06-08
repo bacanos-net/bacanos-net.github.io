@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const { encontrarJogoCorrespondente } = require('./helpers/fuzzyMatch');
 
 const app = express();
 const PORT = 3000;
@@ -102,9 +103,42 @@ app.get('/api/jogo', async (req, res) => {
   try {
     const pagina = parseInt(req.query.page) || 1;
     const porPagina = parseInt(req.query.limit) || 20;
+    const termoBusca = (req.query.search || '').trim().toLowerCase();
 
-    // Busca os appids ordenados por popularidade
-    const appids = await pegarTop100SteamSpy();
+    // Busca todos os jogos do SteamSpy
+    const url = 'https://steamspy.com/api.php?request=all';
+    let steamSpyData;
+    try {
+      const resSteamSpy = await axios.get(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json,text/plain,*/*'
+        }
+      });
+      steamSpyData = resSteamSpy.data;
+    } catch (err) {
+      // Tenta via proxy público
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+      const resSteamSpy = await axios.get(proxyUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json,text/plain,*/*'
+        }
+      });
+      steamSpyData = resSteamSpy.data;
+    }
+
+    // Filtra por busca se necessário
+    let appids;
+    if (termoBusca) {
+      appids = Object.values(steamSpyData)
+        .filter(jogo => jogo.name && jogo.name.toLowerCase().includes(termoBusca))
+        .map(jogo => String(jogo.appid));
+    } else {
+      appids = Object.keys(steamSpyData);
+    }
+
+    // Paginação
     const inicio = (pagina - 1) * porPagina;
     const fim = inicio + porPagina;
     const appidsPagina = appids.slice(inicio, fim);
@@ -124,6 +158,82 @@ app.get('/api/jogo', async (req, res) => {
     res.status(500).json({ error: 'Erro interno no servidor' });
   }
 });
+
+const ONLINEFIX_URL = 'https://hydralinks.pages.dev/sources/onlinefix.json';
+const DODI_URL = 'https://hydralinks.pages.dev/sources/dodi.json';
+const STEAMRIP_URL = 'https://hydralinks.pages.dev/sources/steamrip.json';
+const GOG_URL = 'https://hydrasources.su/sources/gog.json';
+const FITGIRL_URL = 'https://hydralinks.pages.dev/sources/fitgirl.json';
+
+app.get('/api/downloads', async (req, res) => {
+  const nome = req.query.nome;
+  if (!nome) {
+    return res.status(400).json({ error: 'Nome do jogo não informado' });
+  }
+  try {
+    // Busca todas as fontes em paralelo
+    const [onlinefixRes, dodiRes, steamripRes, gogRes, fitgirlRes] = await Promise.all([
+      axios.get(ONLINEFIX_URL),
+      axios.get(DODI_URL),
+      axios.get(STEAMRIP_URL),
+      axios.get(GOG_URL),
+      axios.get(FITGIRL_URL)
+    ]);
+    const onlinefixData = onlinefixRes.data;
+    const dodiData = dodiRes.data;
+    const steamripData = steamripRes.data;
+    const gogData = gogRes.data;
+    const fitgirlData = fitgirlRes.data;
+
+    // Fuzzy match em todas as fontes
+    const matchedOnlinefix = encontrarJogoCorrespondente(nome, onlinefixData);
+    const matchedDodi = encontrarJogoCorrespondente(nome, dodiData);
+    const matchedSteamrip = encontrarJogoCorrespondente(nome, steamripData);
+    const matchedGog = encontrarJogoCorrespondente(nome, gogData);
+    const matchedFitgirl = encontrarJogoCorrespondente(nome, fitgirlData);
+
+    const linksOnlinefix = onlinefixData[matchedOnlinefix] || [];
+    const linksDodi = dodiData[matchedDodi] || [];
+    const linksSteamrip = steamripData[matchedSteamrip] || [];
+    const linksGog = gogData[matchedGog] || [];
+    const linksFitgirl = fitgirlData[matchedFitgirl] || [];
+
+    res.json({
+      onlinefix: {
+        matchedName: matchedOnlinefix,
+        links: linksOnlinefix
+      },
+      dodi: {
+        matchedName: matchedDodi,
+        links: linksDodi
+      },
+      steamrip: {
+        matchedName: matchedSteamrip,
+        links: linksSteamrip
+      },
+      gog: {
+        matchedName: matchedGog,
+        links: linksGog
+      },
+      fitgirl: {
+        matchedName: matchedFitgirl,
+        links: linksFitgirl
+      }
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Erro ao buscar links de download' });
+  }
+});
+
+// Exemplo:
+// const data = {
+// //   "Elden Ring": [],
+// //   "It Takes Two": [],
+// //   "Hogwarts Legacy": []
+// // };
+// const nomeJogo = "Elden Ring™";
+// const jogoMatch = encontrarJogoCorrespondente(nomeJogo, data);
+// console.log(jogoMatch); // "Elden Ring"
 
 app.listen(PORT, () => {
   console.log(`API rodando em http://localhost:${PORT}`);
