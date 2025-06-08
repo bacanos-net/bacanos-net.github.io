@@ -102,28 +102,41 @@ async function mostrarDetalhes(jogo) {
   linksContainer.innerHTML = '<p><strong>Downloads:</strong></p>';
 
   try {
-    const res = await fetch('https://hydralinks.pages.dev/sources/onlinefix.json');
+    let apiBase = window.location.hostname === "localhost"
+      ? "http://localhost:3000"
+      : "https://prunbo-github-io.onrender.com";
+    const res = await fetch(`${apiBase}/api/downloads?nome=${encodeURIComponent(jogo.name)}`);
     const data = await res.json();
 
-    // Fuzzy match para TODOS os jogos
-    const fuse = new Fuse(Object.keys(data), {
-      includeScore: true,
-      threshold: 0.4,
-    });
-    const result = fuse.search(jogo.name);
-    let matchedName = result.length > 0 ? result[0].item : jogo.name;
-    const links = data[matchedName];
+    let totalLinks = 0;
+    const fontes = [
+      { key: 'onlinefix', label: 'OnlineFix' },
+      { key: 'dodi', label: 'DODI' },
+      { key: 'steamrip', label: 'SteamRip' },
+      { key: 'gog', label: 'GOG' },
+      { key: 'fitgirl', label: 'FitGirl' }
+    ];
 
-    if (links && links.length > 0) {
-      links.forEach(link => {
-        const a = document.createElement('a');
-        a.href = link.url;
-        a.textContent = link.name;
-        a.target = '_blank';
-        a.style.display = 'block';
-        linksContainer.appendChild(a);
-      });
-    } else {
+    fontes.forEach(fonte => {
+      const fonteData = data[fonte.key];
+      if (fonteData && fonteData.links && fonteData.links.length > 0) {
+        totalLinks += fonteData.links.length;
+        // Mostra o nome fuzzy matched ao lado do nome da fonte
+        const fonteTitle = document.createElement('p');
+        fonteTitle.innerHTML = `<strong>${fonte.label}</strong> <span style="color:#888;font-size:0.9em">(match: ${fonteData.matchedName})</span>:`;
+        linksContainer.appendChild(fonteTitle);
+        fonteData.links.forEach(link => {
+          const a = document.createElement('a');
+          a.href = link.url;
+          a.textContent = link.name;
+          a.target = '_blank';
+          a.style.display = 'block';
+          linksContainer.appendChild(a);
+        });
+      }
+    });
+
+    if (totalLinks === 0) {
       linksContainer.innerHTML += '<p>Nenhum link disponível.</p>';
     }
   } catch (e) {
