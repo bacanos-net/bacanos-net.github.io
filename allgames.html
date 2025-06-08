@@ -1,91 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7136121133465965"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bacanos Store</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bacanos Store — Filtro e Detalhes</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="jolly_roger_sapofrog.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-
 </head>
-<script src="script.js"></script>
 <body>
     <header>
         <div class="logo">
             <h1>BacanosStore</h1><img src="jolly_roger_sapofrog.png">
         </div>
+
         <div class="search-bar">
-            <input type="text" placeholder="Buscar jogos...">
+            <input type="text" id="header-busca" placeholder="Buscar jogos...">
             <div id="suggestions" class="suggestions"></div>
-            <button>Buscar</button>
+            <button id="header-buscar">Buscar</button>
         </div>
     </header>
-
     <nav>
-        <ul>
-            <li><a href="bacanosstore.html">Início</a></li>
-            <li><a href="allgames.html">Jogos</a></li>
-            <li><a href="promocao.html">Promoções</a></li>
-            <li><a href="novidade.html">Novidades</a></li>
-            <li><a href="contato.html">Contato</a></li>
-        </ul>
-    </nav>
+            <ul>
+                <li><a href="bacanosstore.html">Início</a></li>
+                <li><a href="allgames.html">Jogos</a></li>
+                <li><a href="promocao.html">Promoções</a></li>
+                <li><a href="novidade.html">Novidades</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+  <h1>Bacanos Store</h1>
 
-    <section class="games-list">
-            <h1 id="allgames-title">Todos os jogos, só aqui!!!</h1>
-            <div id="search-error" style="display:none;color:#000000;font-weight:bold;"></div>
-        <div class="game">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrVNzn3aErkS59Ym_qhqbZYFd8laElFfxviQ&s" alt="Terraria">
-            <h3>Terraria</h3>
-            <p>R$ 14,90</p>
-            <a href="https://drive.google.com/drive/folders/1MG6uee1PJtWTFCOhjg_kace7H-px1taP?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://sm.ign.com/ign_pt/photo/default/9-kings-button-1744806756204_e6zb.jpg" alt="9 Kings">
-            <h3>9 Kings</h3>
-            <p>R$ 23,45</p>
-            <a href="https://drive.google.com/drive/folders/1HEcYccts3Wx-cxIi_I4zsglJH854gtZK?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://cdn2.steamgriddb.com/icon_thumb/62415c82dd6c47e714f473f9b0475e62.png" alt="Balatro">
-            <h3>Balatro</h3>
-            <p>R$ 49,89</p>
-            <a href="https://drive.google.com/drive/folders/1W9IH1NO99tq4L_wiQ1a8E_WK73ftxFsh?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://fontmeme.com/images/castle-crashers-font.jpg" alt="Castle Crashers">
-            <h3>Castle Crashers</h3>
-            <p>R$ 22,35</p>
-            <a href="https://drive.google.com/drive/folders/1qzlouAaJCP9KrakXE2b5sglsVA6KKII0?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://i.ytimg.com/vi/Sg-qzPxozwI/sddefault.jpg" alt="Deltarune">
-            <h3>Deltarune</h3>
-            <p>R$ GRÁTIS</p>
-            <a href="https://drive.google.com/drive/folders/1w0VWEYCQyu1eIEtfMy38zwdgesdiLB15?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://play-lh.googleusercontent.com/He92papZcOmkgTi1sLHXQQb02aoyRtJ8ml96njM_cSAcpHhILvxMjhLix4mYEIKXPq4" alt="Stardew Valley">
-            <h3>Stardew Valley</h3>
-            <p>R$ 14,50</p>
-            <a href="https://drive.google.com/drive/folders/1-RWSHF5Nv7GQmLJFESqNl6vNYWTjuNEk?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Logo_of_Geometry_Dash.svg/1200px-Logo_of_Geometry_Dash.svg.png" alt="Geometry Dash">
-            <h3>Geometry Dash</h3>
-            <p>R$ 5,69</p>
-            <a href="https://drive.google.com/drive/folders/14ygMj2GX13R04hkVWzUg7d55OvP6fR1J?usp=sharing"><button>Comprar</button></a>
-        </div>
-        <div class="game">
-            <img src="https://www.adrenaline.com.br/wp-content/uploads/2023/08/graveyard-keeper-capa-310x310.jpg">
-            <h3>Graveyard Keeper</h3>
-            <p>R$ 2,27</p>
-            <a href="https://www.mediafire.com/file/0iwqsjmt7oz54g8/setup_graveyard_keeper_1.405_%252855212%2529.exe/file"><button>Comprar</button></a>
-        </div>
-    </section>
+  <label for="filter">Filtrar por gênero:</label>
+  <select id="filter">
+    <option value="todos">Todos</option>
+  </select>
+
+  <input type="text" id="busca" placeholder="Buscar jogo..." />
+  <button id="anterior">←</button>
+  <span id="pagina-atual">1</span>
+  <button id="proximo">→</button>
+  <div id="lista-jogos"></div>
+
+  <div id="detalhes" style="display:none;">
+    <button id="voltar">← Voltar</button>
+    <img id="detalhe-img" alt="" />
+    <h2 id="detalhe-titulo"></h2>
+    <p id="detalhe-descricao"></p>
+    <p><strong>Gêneros:</strong> <span id="detalhe-generos"></span></p>
+    <p><strong>Data de lançamento:</strong> <span id="detalhe-release"></span></p>
+    <p><strong>Preço:</strong> <span id="detalhe-preco"></span></p>
+  </div>
+
+<script>
+const listaJogos = document.getElementById('lista-jogos');
+const filterSelect = document.getElementById('filter');
+const buscaInput = document.getElementById('busca');
+
+let paginaAtual = 1;
+let jogos = [];
+let generosSet = new Set();
+
+function criarCard(jogo) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg" alt="${jogo.name}" />
+    <div class="info">
+      <div class="title">${jogo.name}</div>
+    </div>
+  `;
+  card.onclick = () => mostrarDetalhes(jogo);
+  return card;
+}
+
+function mostrarDetalhes(jogo) {
+
+  detalhes.style.display = 'block';
+}
+
+function popularFiltro() {
+  filterSelect.innerHTML = '<option value="todos">Todos</option>';
+  Array.from(generosSet).sort().forEach(g => {
+    const opt = document.createElement('option');
+    opt.value = g;
+    opt.textContent = g;
+    filterSelect.appendChild(opt);
+  });
+}
+
+function filtrarJogos() {
+  const filtro = filterSelect.value;
+  const busca = buscaInput.value.trim().toLowerCase(); // ADICIONADO
+  listaJogos.innerHTML = '';
+  let filtrados = filtro === 'todos' ? jogos : jogos.filter(j => (j.genres || []).includes(filtro));
+  if (busca) {
+    filtrados = filtrados.filter(jogo => jogo.name.toLowerCase().includes(busca));
+  }
+  filtrados.forEach(jogo => {
+    listaJogos.appendChild(criarCard(jogo));
+  });
+}
+
+async function carregarJogos() {
+  listaJogos.textContent = 'Carregando...';
+  try {
+    // Busca os jogos da página atual
+    const res = await fetch(`http://localhost:3000/api/jogo?page=${paginaAtual}&limit=20`);
+    if (!res.ok) throw new Error('Falha ao carregar jogos');
+    jogos = await res.json();
+
+    generosSet.clear();
+    jogos.forEach(j => {
+      if (j.genres) j.genres.forEach(g => generosSet.add(g));
+    });
+
+    popularFiltro();
+    filtrarJogos();
+    document.getElementById('pagina-atual').textContent = paginaAtual;
+  } catch (e) {
+    listaJogos.textContent = 'Erro ao carregar jogos.';
+    console.error(e);
+  }
+}
+
+filterSelect.addEventListener('change', () => {
+  buscaInput.value = '';
+  filtrarJogos();
+});
+
+buscaInput.addEventListener('input', filtrarJogos);
+
+document.getElementById('proximo').onclick = () => {
+  paginaAtual++;
+  buscaInput.value = '';
+  carregarJogos();
+};
+document.getElementById('anterior').onclick = () => {
+  if (paginaAtual > 1) {
+    paginaAtual--;
+    buscaInput.value = '';
+    carregarJogos();
+  }
+};
+
+// Sincroniza a barra de pesquisa do header com a busca da lista
+const headerBuscaInput = document.getElementById('header-busca');
+const headerBuscarBtn = document.getElementById('header-buscar');
+
+if (headerBuscaInput && buscaInput) {
+  // Ao digitar no header, filtra a lista
+  headerBuscaInput.addEventListener('input', () => {
+    buscaInput.value = headerBuscaInput.value;
+    filtrarJogos();
+  });
+  // Ao clicar no botão do header, filtra a lista
+  if (headerBuscarBtn) {
+    headerBuscarBtn.addEventListener('click', () => {
+      buscaInput.value = headerBuscaInput.value;
+      filtrarJogos();
+    });
+  }
+  // Sincroniza busca da lista com o header
+  buscaInput.addEventListener('input', () => {
+    headerBuscaInput.value = buscaInput.value;
+  });
+}
+
+carregarJogos();
+
+</script>
 
 </body>
 </html>

@@ -1,0 +1,25 @@
+{
+  "name": "prunbo.github.io",
+  "version": "1.0.0",
+  "description": "store of bacanos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prunbo/prunbo.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prunbo/prunbo.github.io/issues"
+  },
+  "homepage": "https://github.com/prunbo/prunbo.github.io#readme",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

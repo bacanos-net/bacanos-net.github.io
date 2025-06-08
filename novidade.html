@@ -17,9 +17,9 @@
             <h1>BacanosStore</h1><img src="jolly_roger_sapofrog.png">
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="Buscar jogos...">
+            <input type="text" id="header-busca" placeholder="Buscar jogos...">
             <div id="suggestions" class="suggestions"></div>
-            <button>Buscar</button>
+            <button id="header-buscar">Buscar</button>
         </div>
     </header>
 
@@ -75,5 +75,23 @@
             <a href="index.html">Central Bacanos</a>
         </div>
     </footer>
+    <script>
+    // Torna a barra de pesquisa do header funcional
+    const headerBuscaInput = document.getElementById('header-busca');
+    const headerBuscarBtn = document.getElementById('header-buscar');
+    if (headerBuscaInput && headerBuscarBtn) {
+        function pesquisarHeader() {
+            const query = headerBuscaInput.value.trim();
+            if (query) {
+                localStorage.setItem('searchQuery', query);
+                window.location.href = 'allgames.html';
+            }
+        }
+        headerBuscarBtn.addEventListener('click', pesquisarHeader);
+        headerBuscaInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') pesquisarHeader();
+        });
+    }
+    </script>
 </body>
 </html>
