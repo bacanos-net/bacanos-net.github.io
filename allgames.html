@@ -165,7 +165,7 @@ async function carregarJogos() {
   try {
     // Busca os jogos da página atual, com busca global se houver termo
     const busca = buscaInput.value.trim();
-    let url = `https://prunbo-github-io.onrender.com?page=${paginaAtual}&limit=20`;
+    let url = `https://prunbo-github-io.onrender.com/api/jogo?page=${paginaAtual}&limit=20`;
     if (busca) {
       url += `&search=${encodeURIComponent(busca)}`;
     }
