@@ -106,7 +106,7 @@ async function carregarJogos() {
   listaJogos.textContent = 'Carregando...';
   try {
     // Busca os jogos da página atual
-    const res = await fetch(`http://localhost:3000/api/jogo?page=${paginaAtual}&limit=20`);
+    const res = await fetch(`https://prunbo-github-io.onrender.com/api/jogo?page=${paginaAtual}&limit=20`);
     if (!res.ok) throw new Error('Falha ao carregar jogos');
     jogos = await res.json();
 

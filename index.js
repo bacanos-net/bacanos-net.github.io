@@ -8,7 +8,7 @@ const PORT = 3000;
 app.use(cors());
 
 async function pegarTop100SteamSpy() {
-  const url = 'https://steamspy.com/api.php?request=top100in2weeks';
+  const url = 'https://steamspy.com/api.php?request=all';
   // Tenta proxy se 403
   try {
     const res = await axios.get(url, {
