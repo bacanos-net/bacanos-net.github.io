@@ -63,7 +63,9 @@ const voltarBtn = document.getElementById('voltar');
 
 let paginaAtual = 1;
 let jogos = [];
+let todosJogos = [];
 let generosSet = new Set();
+const JOGOS_POR_PAGINA = 20;
 
 function criarCard(jogo) {
   const card = document.createElement('div');
@@ -100,58 +102,6 @@ async function mostrarDetalhes(jogo) {
   linksContainer = document.createElement('div');
   linksContainer.id = 'detalhe-downloads';
   linksContainer.innerHTML = '<p><strong>Downloads:</strong></p>';
-
-  try {
-    let apiBase = window.location.hostname === "localhost"
-      ? "http://localhost:3000"
-      : "https://prunbo-github-io.onrender.com";
-    const res = await fetch(`${apiBase}/api/downloads?nome=${encodeURIComponent(jogo.name)}`);
-    const data = await res.json();
-
-    let totalLinks = 0;
-    const fontes = [
-      { key: 'onlinefix', label: 'OnlineFix' },
-      { key: 'dodi', label: 'DODI' },
-      { key: 'steamrip', label: 'SteamRip' },
-      { key: 'gog', label: 'GOG' },
-      { key: 'fitgirl', label: 'FitGirl' }
-    ];
-
-    fontes.forEach(fonte => {
-      const fonteData = data[fonte.key];
-      if (fonteData && fonteData.links && fonteData.links.length > 0) {
-        totalLinks += fonteData.links.length;
-        // Mostra o nome fuzzy matched ao lado do nome da fonte
-        const fonteTitle = document.createElement('p');
-        fonteTitle.innerHTML = `<strong>${fonte.label}</strong> <span style="color:#888;font-size:0.9em">(match: ${fonteData.matchedName})</span>:`;
-        linksContainer.appendChild(fonteTitle);
-        fonteData.links.forEach(link => {
-          const a = document.createElement('a');
-          a.href = link.url;
-          a.textContent = link.name;
-          a.target = '_blank';
-          a.style.display = 'block';
-          linksContainer.appendChild(a);
-        });
-      }
-    });
-
-    if (totalLinks === 0) {
-      linksContainer.innerHTML += '<p>Nenhum link disponível.</p>';
-    }
-  } catch (e) {
-    linksContainer.innerHTML += '<p>Erro ao buscar links de download.</p>';
-  }
-
-  detalhesDiv.appendChild(linksContainer);
-}
-
-// Botão voltar funcional
-if (voltarBtn) {
-  voltarBtn.onclick = () => {
-    detalhesDiv.style.display = 'none';
-    listaJogos.style.display = '';
-  };
 }
 
 function popularFiltro() {
@@ -166,57 +116,96 @@ function popularFiltro() {
 
 function filtrarJogos() {
   const filtro = filterSelect.value;
+  const busca = buscaInput.value.trim().toLowerCase();
+  let filtrados = todosJogos;
+
+  // Filtro por gênero (se houver campo genres)
+  if (filtro !== 'todos') {
+    filtrados = filtrados.filter(j => (j.genres || []).includes(filtro));
+  }
+
+  // Busca por nome
+  if (busca) {
+    filtrados = filtrados.filter(j => j.name && j.name.toLowerCase().includes(busca));
+  }
+
+  // Atualiza generosSet para o filtro
+  generosSet.clear();
+  filtrados.forEach(j => {
+    if (j.genres) j.genres.forEach(g => generosSet.add(g));
+  });
+
+  popularFiltro();
+
+  // Paginação
+  const inicio = (paginaAtual - 1) * JOGOS_POR_PAGINA;
+  const fim = inicio + JOGOS_POR_PAGINA;
+  jogos = filtrados.slice(inicio, fim);
+
   listaJogos.innerHTML = '';
-  let filtrados = filtro === 'todos' ? jogos : jogos.filter(j => (j.genres || []).includes(filtro));
-  filtrados.forEach(jogo => {
+  jogos.forEach(jogo => {
     listaJogos.appendChild(criarCard(jogo));
   });
+
+  document.getElementById('pagina-atual').textContent = paginaAtual;
 }
 
 async function carregarJogos() {
   listaJogos.textContent = 'Carregando...';
-  try {
-    // Busca os jogos da página atual, com busca global se houver termo
-    const busca = buscaInput.value.trim();
-    let url = `https://prunbo-github-io.onrender.com/api/jogo?page=${paginaAtual}&limit=20`;
-    if (busca) {
-      url += `&search=${encodeURIComponent(busca)}`;
+  await carregarTodosJogos();
+  filtrarJogos();
+}
+
+// Substitua tudo relacionado a carregarJogosSteamSpy e mantenha só carregarTodosJogos:
+async function carregarTodosJogos() {
+  if (todosJogos.length > 0) return;
+  const response = await fetch('steamspy.json');
+  const text = await response.text();
+  const lines = text.split('\n').filter(line => line.trim() !== '');
+  const jogos = [];
+  let jogo = {};
+  for (const line of lines) {
+    if (/^\d+$/.test(line.trim())) {
+      if (Object.keys(jogo).length > 0) {
+        jogos.push(jogo);
+        jogo = {};
+      }
+      continue;
     }
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Falha ao carregar jogos');
-    jogos = await res.json();
-
-    generosSet.clear();
-    jogos.forEach(j => {
-      if (j.genres) j.genres.forEach(g => generosSet.add(g));
-    });
-
-    popularFiltro();
-    filtrarJogos();
-    document.getElementById('pagina-atual').textContent = paginaAtual;
-  } catch (e) {
-    listaJogos.textContent = 'Erro ao carregar jogos.';
-    console.error(e);
+    const [key, ...rest] = line.split('\t');
+    if (key && rest.length > 0) {
+      let value = rest.join('\t').replace(/^"|"$/g, '');
+      if (!isNaN(value) && value.trim() !== '') value = Number(value);
+      jogo[key.trim()] = value;
+    }
   }
+  if (Object.keys(jogo).length > 0) jogos.push(jogo);
+  todosJogos = jogos.filter(j => j && j.name);
+  // Atualiza generosSet para todos os jogos
+  generosSet.clear();
+  todosJogos.forEach(j => {
+    if (j.genres) j.genres.forEach(g => generosSet.add(g));
+  });
 }
 
 filterSelect.addEventListener('change', () => {
-  carregarJogos();
+  paginaAtual = 1;
+  filtrarJogos();
 });
 
 buscaInput.addEventListener('input', () => {
   paginaAtual = 1;
-  carregarJogos();
+  filtrarJogos();
 });
 
 document.getElementById('proximo').onclick = () => {
   paginaAtual++;
-  carregarJogos();
+  filtrarJogos();
 };
 document.getElementById('anterior').onclick = () => {
   if (paginaAtual > 1) {
     paginaAtual--;
-    carregarJogos();
+    filtrarJogos();
   }
 };
 
@@ -228,19 +217,24 @@ if (headerBuscaInput && buscaInput) {
   headerBuscaInput.addEventListener('input', () => {
     buscaInput.value = headerBuscaInput.value;
     paginaAtual = 1;
-    carregarJogos();
+    filtrarJogos();
   });
   if (headerBuscarBtn) {
     headerBuscarBtn.addEventListener('click', () => {
       buscaInput.value = headerBuscaInput.value;
       paginaAtual = 1;
-      carregarJogos();
+      filtrarJogos();
     });
   }
   buscaInput.addEventListener('input', () => {
     headerBuscaInput.value = buscaInput.value;
   });
 }
+
+voltarBtn.addEventListener('click', () => {
+  detalhesDiv.style.display = 'none';
+  listaJogos.style.display = '';
+});
 
 carregarJogos();
 
