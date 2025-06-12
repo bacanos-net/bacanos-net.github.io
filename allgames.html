@@ -132,7 +132,7 @@ async function mostrarDetalhes(jogo) {
         // Busca fuzzy usando Fuse.js
         const fuse = new Fuse(data, {
           keys: ['title'],
-          threshold: 0.4 // Ajuste se necessário
+          threshold: 0.1 // Ajuste se necessário
         });
         const resultadosFuse = fuse.search(jogo.name);
         resultados = resultadosFuse.map(r => r.item);
@@ -141,7 +141,7 @@ async function mostrarDetalhes(jogo) {
         if (Array.isArray(data.downloads)) {
           const fuse = new Fuse(data.downloads, {
             keys: ['title'],
-            threshold: 0.2
+            threshold: 0.1
           });
           const resultadosFuse = fuse.search(jogo.name);
           resultados = resultadosFuse.map(r => r.item);
@@ -149,17 +149,18 @@ async function mostrarDetalhes(jogo) {
       }
 
       if (resultados.length > 0) {
-        const ul = document.createElement('ul');
+        const linksWrap = document.createElement('div');
         resultados.forEach(item => {
-          const li = document.createElement('li');
+          const block = document.createElement('div');
+          block.className = 'download-link-block';
           if (item.uris && item.uris[0]) {
-            li.innerHTML = `<a href="${item.uris[0]}" target="_blank">${item.title || 'Download'}</a> (${item.fileSize || ''})`;
+            block.innerHTML = `<a href="${item.uris[0]}" target="_blank">${item.title || 'Download'}</a> ${item.fileSize ? `<span>(${item.fileSize})</span>` : ''}`;
           } else {
-            li.textContent = item.title || 'Download';
+            block.textContent = item.title || 'Download';
           }
-          ul.appendChild(li);
+          linksWrap.appendChild(block);
         });
-        fonteDiv.querySelector('span').replaceWith(ul);
+        fonteDiv.querySelector('span').replaceWith(linksWrap);
       } else {
         fonteDiv.querySelector('span').textContent = 'sem resultados para essa fonte';
       }

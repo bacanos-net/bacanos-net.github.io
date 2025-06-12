@@ -379,3 +379,25 @@ footer .social-links a:hover {
     color: #7ee500;
     text-decoration: underline;
 }
+
+.download-link-block {
+    display: inline-block;
+    background: #eaffd0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin: 8px 10px 8px 0;
+    box-shadow: 0 2px 8px rgba(122,255,0,0.07);
+    font-size: 16px;
+    color: #222;
+    transition: background 0.2s, box-shadow 0.2s;
+    min-width: 180px;
+    text-align: center;
+}
+.download-link-block a {
+    color: #4e8d00;
+    text-decoration: none;
+    font-weight: bold;
+}
+.download-link-block a:hover {
+    text-decoration: underline;
+}
