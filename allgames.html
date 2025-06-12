@@ -74,7 +74,7 @@ function criarCard(jogo) {
     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg" alt="${jogo.name}" />
     <div class="info">
       <div class="title">${jogo.name}</div>
-      <button class="comprar-btn">Comprar / Download</button>
+      <button class="comprar-btn">Download</button>
     </div>
   `;
   // Apenas o botão abre os detalhes
@@ -102,6 +102,73 @@ async function mostrarDetalhes(jogo) {
   linksContainer = document.createElement('div');
   linksContainer.id = 'detalhe-downloads';
   linksContainer.innerHTML = '<p><strong>Downloads:</strong></p>';
+
+  // Fontes de download
+  const fontes = [
+    { nome: 'Online Fix', arquivo: 'onlinefix.json' },
+    { nome: 'DODI', arquivo: 'dodi.json' },
+    { nome: 'AtopGames', arquivo: 'atop-games.json' },
+    { nome: 'SteamRip', arquivo: 'steamrip.json' },
+    { nome: 'GOG', arquivo: 'gog.json' }
+  ];
+
+  // Função para buscar e mostrar links de cada fonte
+  for (const fonte of fontes) {
+    const fonteDiv = document.createElement('div');
+    fonteDiv.innerHTML = `<strong>${fonte.nome}:</strong> <span>Carregando...</span>`;
+    linksContainer.appendChild(fonteDiv);
+
+    try {
+      const res = await fetch(fonte.arquivo);
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
+      }
+
+            let resultados = [];
+      if (data && Array.isArray(data)) {
+        // Busca fuzzy usando Fuse.js
+        const fuse = new Fuse(data, {
+          keys: ['title'],
+          threshold: 0.4 // Ajuste se necessário
+        });
+        const resultadosFuse = fuse.search(jogo.name);
+        resultados = resultadosFuse.map(r => r.item);
+      } else if (data && typeof data === 'object') {
+        // Caso o JSON seja objeto (ex: onlinefix)
+        if (Array.isArray(data.downloads)) {
+          const fuse = new Fuse(data.downloads, {
+            keys: ['title'],
+            threshold: 0.2
+          });
+          const resultadosFuse = fuse.search(jogo.name);
+          resultados = resultadosFuse.map(r => r.item);
+        }
+      }
+
+      if (resultados.length > 0) {
+        const ul = document.createElement('ul');
+        resultados.forEach(item => {
+          const li = document.createElement('li');
+          if (item.uris && item.uris[0]) {
+            li.innerHTML = `<a href="${item.uris[0]}" target="_blank">${item.title || 'Download'}</a> (${item.fileSize || ''})`;
+          } else {
+            li.textContent = item.title || 'Download';
+          }
+          ul.appendChild(li);
+        });
+        fonteDiv.querySelector('span').replaceWith(ul);
+      } else {
+        fonteDiv.querySelector('span').textContent = 'sem resultados para essa fonte';
+      }
+    } catch {
+      fonteDiv.querySelector('span').textContent = 'sem resultados para essa fonte';
+    }
+  }
+
+  detalhesDiv.appendChild(linksContainer);
 }
 
 function popularFiltro() {
