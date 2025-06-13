@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações — Bacanos Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="jolly_roger_sapofrog.png" type="image/x-icon">
+    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+    <style>
+      main p {
+        margin-bottom: 15px;
+      }
+      main h2 {
+        margin-bottom: 15px;
+      }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>BacanosStore</h1><img src="jolly_roger_sapofrog.png" alt="Logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="header-busca" placeholder="Buscar jogos...">
+            <div id="suggestions" class="suggestions"></div>
+            <button id="header-buscar">Buscar</button>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="allgames.html">Jogos</a></li>
+            <li><a href="promocao.html">Preservação</a></li>
+            <li><a href="info.html" class="active">Informações</a></li>
+            <li><a href="novidade.html">Novidades</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <section class="banner">
+        <h2>Informações!!</h2>
+        <p>Aqui você vai entender sobre cada fonte</p>
+    </section>
+
+    <main>
+        <h2>Maior compatibilidade com Windows, mas funciona em Linux. Versão para celular está em progresso!!!</h2>
+        <h1>Instruções</h1>
+        <h2>DODI, FitGirl, GOG:</h2>
+        <p>Essas 3 fontes são fontes por instalador, ou seja, quando você instala, você está instalando apenas o instalador do jogo</p>
+        <p>Essas fontes passam por 2 downloads, o download inicial, que é por torrent, e o instalador do jogo</p>
+        <p>A minha fonte mais recomendada dessas 3 é o GOG, por ser o mais rápido e o mais dinâmico, DODI também é muito bom, e FitGirl demora demais.</p>
+        <h2>OnlineFix:</h2>
+        <p>OnlineFix é uma fonte que já vem com os jogos preparados para jogar online, ele vem em um arquivo compactado, e não precisa de nenhum instalador, pois o jogo já está inteiro no arquivo compactado</p>
+        <p>INFORMAÇÕES IMPORTANTES: Essa é a única fonte que precisa de senha na hora de extrair os arquivos, e a senha SEMPRE vai ser: online-fix.me</p>
+        <p>Procure no youtube de como instalar o spacewar para jogar online pelos jogos da OnlineFix, ou aperte Windows + R e no canto da tela cole esse código: steam://run/480 e termine de instalar pela steam.</p>
+        <h2>SteamRip, Shisuy, Kazumi, AtopGames:</h2>
+        <p>Essas fontes são as mais fáceis de instalar, pois não tem senha, e nem instalador, ela vem em uma pasta compactada e é só extrair e jogar.</p>
+        <h1>Problemas comuns:</h1>
+        <p>Caso aconteça na hora que você for jogar o jogo, e ele não funcionar funções básicas como pular, andar ou mexer a câmera, muito provavelmente o sistema Anti-Piracy tá funcionando, e um dos métodos mais funcionais de resolver, é simplesmente colocando a pasta do jogo na pasta de jogos da steam</p>
+        <p>Lembre-se de sempre procurar vídeos no youtube, ou em fórums da internet soluções.</p>
+        <span style="text-align: center;"><h1>TODOS OS MELHORES GUIAS ESTÃO AQUI</h1></span>
+    </main>
+
+    <section class="games-list">
+        
+        <div class="game">
+            <h3>Wiki PT-BR</h3>
+            <a href="https://pirataria.link/inicio"><button>Acessar</button></a>
+        </div>
+        <div class="game">
+            <h3>Wiki USA</h3>
+            <a href="https://old.reddit.com/r/Piracy/wiki/megathread"><button>Acessar</button></a>
+        </div>
+        <div class="game">
+            <h3>Guide USA</h3>
+            <a href="https://www.reddit.com/r/Piracy/wiki/guides/"><button>Acessar</button></a>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 BacanosInc. Todos os direitos reservados.</p>
+        <div class="social-links">
+            <a href="https://discord.gg/7qvhJUqZby">Discord</a>
+            <a href="https://github.com/prunbo/prunbo.github.io.git">GitHub</a>
+            <a href="https://www.reddit.com/user/Prunbo/">Reddit</a>
+        </div>
+    </footer>
+    <script>
+
+    const headerBuscaInput = document.getElementById('header-busca');
+    const headerBuscarBtn = document.getElementById('header-buscar');
+    if (headerBuscaInput && headerBuscarBtn) {
+        function pesquisarHeader() {
+            const query = headerBuscaInput.value.trim();
+            if (query) {
+                window.location.href = 'allgames.html?busca=' + encodeURIComponent(query);
+            } else {
+                window.location.href = 'allgames.html';
+            }
+        }
+        headerBuscarBtn.addEventListener('click', pesquisarHeader);
+        headerBuscaInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') pesquisarHeader();
+        });
+    }
+    </script>
+</body>
+</html>

@@ -9,6 +9,32 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="jolly_roger_sapofrog.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+    max-width: 900px;      
+    width: 100%;
+    margin: 0 auto;        
+    padding: 32px 24px;    
+    box-sizing: border-box;
+  }
+  @media (max-width: 950px) {
+    main {
+      max-width: 100%;
+      padding: 16px 8px;
+    }
+  }
+</style>
 </head>
 <script src="script.js"></script>
 <body>
@@ -25,11 +51,12 @@
     </header>
     <nav>
         <ul>
-            <li><a href="bacanosstore.html">Início</a></li>
+            <li><a href="index.html">Início</a></li>
             <li><a href="allgames.html">Jogos</a></li>
-            <li><a href="promocao.html">Promoções</a></li>
+            <li><a href="promocao.html">Preservação</a></li>
+            <li><a href="info.html">Informações</a></li>
             <li><a href="novidade.html">Novidades</a></li>
-            <li><a href="contato.html">Contato</a></li>
+            <li><a href="contato.html" class="active">Contato</a></li>
         </ul>
     </nav>
     <main>
