@@ -69,10 +69,10 @@ header .search-bar input {
     font-size: 16px;
 }
 
-header .search-bar button {
+header button {
     padding: 12px 24px;
     border: none;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
     background-color: #aaff00;
     color: #222;
     font-weight: bold;
