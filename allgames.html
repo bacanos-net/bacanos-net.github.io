@@ -33,10 +33,6 @@
     <main>
         <h1>Bacanos Store</h1>
         <section class="filtros">
-            <label for="filter">Filtrar por gênero:</label>
-            <select id="filter">
-                <option value="todos">Todos</option>
-            </select>
             <input type="text" id="busca" placeholder="Buscar jogo..." />
             <button id="anterior">←</button>
             <span id="pagina-atual">1</span>
@@ -47,11 +43,7 @@
             <button id="voltar">← Voltar</button>
             <img id="detalhe-img" alt="" />
             <h2 id="detalhe-titulo"></h2>
-            <p id="detalhe-descricao"></p>
-            <p><strong>Gêneros:</strong> <span id="detalhe-generos"></span></p>
-            <p><strong>Data de lançamento:</strong> <span id="detalhe-release"></span></p>
-            <p><strong>Preço:</strong> <span id="detalhe-preco"></span></p>
-            <!-- O container de downloads será criado via JS -->
+            <!-- Apenas os links serão exibidos -->
         </section>
     </main>
     <footer>
@@ -64,7 +56,6 @@
     </footer>
 <script>
 const listaJogos = document.getElementById('lista-jogos');
-const filterSelect = document.getElementById('filter');
 const buscaInput = document.getElementById('busca');
 const detalhesDiv = document.getElementById('detalhes');
 const voltarBtn = document.getElementById('voltar');
@@ -72,7 +63,6 @@ const voltarBtn = document.getElementById('voltar');
 let paginaAtual = 1;
 let jogos = [];
 let todosJogos = [];
-let generosSet = new Set();
 const JOGOS_POR_PAGINA = 20;
 
 function criarCard(jogo) {
@@ -83,8 +73,7 @@ function criarCard(jogo) {
     <div class="info">
       <div class="title">${jogo.name}</div>
       <button class="comprar-btn">Download</button>
-    </div>
-  `;
+    </div>`;
   card.querySelector('.comprar-btn').onclick = (e) => {
     e.stopPropagation();
     mostrarDetalhes(jogo);
@@ -96,11 +85,7 @@ async function mostrarDetalhes(jogo) {
   detalhesDiv.style.display = 'block';
   listaJogos.style.display = 'none';
   document.getElementById('detalhe-titulo').textContent = jogo.name;
-  document.getElementById('detalhe-generos').textContent = (jogo.genres || []).join(', ');
-  document.getElementById('detalhe-release').textContent = jogo.release_date || 'Desconhecida';
-  document.getElementById('detalhe-preco').textContent = jogo.price || 'Indisponível';
   document.getElementById('detalhe-img').src = jogo.header_image || `https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg`;
-  document.getElementById('detalhe-descricao').textContent = jogo.short_description || 'Sem descrição disponível';
 
   let linksContainer = document.getElementById('detalhe-downloads');
   if (linksContainer) linksContainer.remove();
@@ -123,7 +108,6 @@ async function mostrarDetalhes(jogo) {
     { nome: 'RuTracker', arquivo: 'rutracker.json' },
     { nome: 'Wkeynhk', arquivo: 'wkeynhk.json' },
     { nome: 'Empress', arquivo: 'empress.json' }
-
   ];
 
   for (const fonte of fontes) {
@@ -132,40 +116,23 @@ async function mostrarDetalhes(jogo) {
     linksContainer.appendChild(fonteDiv);
     try {
       const res = await fetch(fonte.arquivo);
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        data = null;
-      }
+      let data = await res.json().catch(() => null);
       let resultados = [];
       if (data && Array.isArray(data)) {
-        const fuse = new Fuse(data, {
-          keys: ['title'],
-          threshold: 0.1
-        });
-        const resultadosFuse = fuse.search(jogo.name);
-        resultados = resultadosFuse.map(r => r.item);
-      } else if (data && typeof data === 'object') {
-        if (Array.isArray(data.downloads)) {
-          const fuse = new Fuse(data.downloads, {
-            keys: ['title'],
-            threshold: 0.1
-          });
-          const resultadosFuse = fuse.search(jogo.name);
-          resultados = resultadosFuse.map(r => r.item);
-        }
+        const fuse = new Fuse(data, { keys: ['title'], threshold: 0.1 });
+        resultados = fuse.search(jogo.name).map(r => r.item);
+      } else if (data && typeof data === 'object' && Array.isArray(data.downloads)) {
+        const fuse = new Fuse(data.downloads, { keys: ['title'], threshold: 0.1 });
+        resultados = fuse.search(jogo.name).map(r => r.item);
       }
       if (resultados.length > 0) {
         const linksWrap = document.createElement('div');
         resultados.forEach(item => {
           const block = document.createElement('div');
           block.className = 'download-link-block';
-          if (item.uris && item.uris[0]) {
-            block.innerHTML = `<a href="${item.uris[0]}" target="_blank">${item.title || 'Download'}</a> ${item.fileSize ? `<span>(${item.fileSize})</span>` : ''}`;
-          } else {
-            block.textContent = item.title || 'Download';
-          }
+          block.innerHTML = item.uris && item.uris[0]
+            ? `<a href="${item.uris[0]}" target="_blank">${item.title || 'Download'}</a>${item.fileSize ? ` <span>(${item.fileSize})</span>` : ''}`
+            : (item.title || 'Download');
           linksWrap.appendChild(block);
         });
         fonteDiv.querySelector('span').replaceWith(linksWrap);
@@ -179,31 +146,12 @@ async function mostrarDetalhes(jogo) {
   detalhesDiv.appendChild(linksContainer);
 }
 
-function popularFiltro() {
-  filterSelect.innerHTML = '<option value="todos">Todos</option>';
-  Array.from(generosSet).sort().forEach(g => {
-    const opt = document.createElement('option');
-    opt.value = g;
-    opt.textContent = g;
-    filterSelect.appendChild(opt);
-  });
-}
-
 function filtrarJogos(buscaOverride) {
-  const filtro = filterSelect.value;
   const busca = (typeof buscaOverride === 'string' ? buscaOverride : buscaInput.value.trim()).toLowerCase();
   let filtrados = todosJogos;
-  if (filtro !== 'todos') {
-    filtrados = filtrados.filter(j => (j.genres || []).includes(filtro));
-  }
   if (busca) {
     filtrados = filtrados.filter(j => j.name && j.name.toLowerCase().includes(busca));
   }
-  generosSet.clear();
-  filtrados.forEach(j => {
-    if (j.genres) j.genres.forEach(g => generosSet.add(g));
-  });
-  popularFiltro();
   const inicio = (paginaAtual - 1) * JOGOS_POR_PAGINA;
   const fim = inicio + JOGOS_POR_PAGINA;
   jogos = filtrados.slice(inicio, fim);
@@ -214,39 +162,24 @@ function filtrarJogos(buscaOverride) {
   document.getElementById('pagina-atual').textContent = paginaAtual;
 }
 
+async function carregarTodosJogos() {
+  if (todosJogos.length > 0) return;
+  const response = await fetch('steamspy.json');
+  const data = await response.json();
+  todosJogos = Object.values(data).filter(j => j && j.name);
+}
+
 async function carregarJogos() {
   listaJogos.textContent = 'Carregando...';
   await carregarTodosJogos();
   filtrarJogos();
 }
 
-async function carregarTodosJogos() {
-  if (todosJogos.length > 0) return;
-  const response = await fetch('steamspy.json');
-  const data = await response.json();
-  // steamspy.json é um objeto, não texto!
-  const jogos = Object.values(data).filter(j => j && j.name);
-  todosJogos = jogos;
-  generosSet.clear();
-  todosJogos.forEach(j => {
-    if (j.genres) j.genres.forEach(g => generosSet.add(g));
-  });
-}
-
-filterSelect.addEventListener('change', () => {
-  paginaAtual = 1;
-  filtrarJogos();
-});
-
-buscaInput.addEventListener('input', () => {
-  paginaAtual = 1;
-  filtrarJogos();
-});
-
 document.getElementById('proximo').onclick = () => {
   paginaAtual++;
   filtrarJogos();
 };
+
 document.getElementById('anterior').onclick = () => {
   if (paginaAtual > 1) {
     paginaAtual--;
@@ -254,36 +187,17 @@ document.getElementById('anterior').onclick = () => {
   }
 };
 
-const headerBuscaInput = document.getElementById('header-busca');
-const headerBuscarBtn = document.getElementById('header-buscar');
-if (headerBuscaInput && headerBuscarBtn) {
-    function pesquisarHeader() {
-        const busca = headerBuscaInput.value.trim();
-        buscaInput.value = busca;
-        paginaAtual = 1;
-        filtrarJogos(busca);
-    }
-    headerBuscarBtn.addEventListener('click', pesquisarHeader);
-    headerBuscaInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') pesquisarHeader();
-    });
-}
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const busca = urlParams.get('busca');
-    const buscaInput = document.getElementById('busca');
-    if (busca && buscaInput) {
-        buscaInput.value = busca;
-        if (typeof filtrarJogos === 'function') {
-            filtrarJogos();
-        }
-    }
+buscaInput.addEventListener('input', () => {
+  paginaAtual = 1;
+  filtrarJogos();
 });
+
 voltarBtn.addEventListener('click', () => {
   detalhesDiv.style.display = 'none';
   listaJogos.style.display = '';
 });
-carregarJogos();
+
+document.addEventListener('DOMContentLoaded', carregarJogos);
 </script>
 </body>
 </html>

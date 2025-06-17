@@ -1,3 +1,4 @@
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -85,6 +86,7 @@ header .search-bar button:hover {
 }
 
 
+/* Navigation Styles */
 nav {
     background: #292929;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -115,6 +117,7 @@ nav ul li a:hover {
 }
 
 
+/* Banner Styles */
 .banner {
     text-align: center;
     padding: 60px 20px 40px 20px;
@@ -153,6 +156,7 @@ nav ul li a:hover {
 }
 
 
+/* Games List Styles */
 .games-list {
     padding: 30px 10px 40px 10px;
     text-align: center;
@@ -350,6 +354,7 @@ nav ul li a:hover {
     background: #7ee500;
 }
 
+/* Footer Styles */
 footer {
     background: #1a1a1a;
     color: #fff;
@@ -400,4 +405,80 @@ footer .social-links a:hover {
 }
 .download-link-block a:hover {
     text-decoration: underline;
+}
+
+/* Ajuste para a barra de pesquisa */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filtros label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+.filtros select,
+.filtros input {
+    padding: 10px;
+    border: 2px solid #aaff00;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filtros select:hover,
+.filtros input:hover {
+    border-color: #7ee500;
+}
+
+.filtros button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #aaff00;
+    color: #222;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.filtros button:hover {
+    background-color: #7ee500;
+}
+
+/* Ajuste para os botões de navegação de página */
+.filtros #anterior,
+.filtros #proximo {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.filtros #pagina-atual {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Ajuste para o botão de download */
+.comprar-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #aaff00;
+    color: #222;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.comprar-btn:hover {
+    background-color: #7ee500;
+    color: #fff;
 }
