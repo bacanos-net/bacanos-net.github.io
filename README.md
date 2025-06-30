@@ -1,6 +1,6 @@
 # Bacanos Net - Páginas de Jogos e Informações
 
-Bem-vindo ao repositório das páginas web do Bacanos Net! Este projeto hospeda três páginas principais:
+Bem-vindo ao repositório da Bacanos Net!
 
 ## Páginas Disponíveis
 
