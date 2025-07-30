@@ -5,15 +5,15 @@ Bem-vindo ao repositório da Bacanos Net!
 ## Páginas Disponíveis
 
 1. **Página Inicial**  
-   [https://bacanos-net.github.io/](https://bacanos-net.github.io/)  
+   [https://bacanos-net.github.io/](https://bacanos-net.github.io/NET/index.html)  
    A porta de entrada para o Bacanos Net, apresentando os destaques e navegação.
 
 2. **Catálogo de Jogos**  
-   [https://bacanos-net.github.io/allgames.html](https://bacanos-net.github.io/allgames.html)  
+   [https://bacanos-net.github.io/allgames.html](https://bacanos-net.github.io//NET/allgames.html)  
    Uma coleção completa de jogos disponíveis no Bacanos Net.
 
 3. **Página de Informações**  
-   [https://bacanos-net.github.io/info.html](https://bacanos-net.github.io/info.html)  
+   [https://bacanos-net.github.io/info.html](https://bacanos-net.github.io/NET/info.html)  
    Detalhes sobre o projeto, contato e informações adicionais.
 
 ## Tecnologias Utilizadas
@@ -37,7 +37,7 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICE
 
 ## Contato
 
-Para mais informações, visite nossa página de [Informações](https://bacanos-net.github.io/info.html) ou abra uma issue neste repositório.
+Para mais informações, visite nossa página de [Informações](https://bacanos-net.github.io/NET/info.html) ou abra uma issue neste repositório.
 
 ### Disclaimer Legal:
   Este projeto tem fins exclusivamente educacionais e informativos. Nenhum conteúdo hospedado neste site infringe direitos autorais de terceiros, e nenhum arquivo protegido por copyright é distribuído, compartilhado ou hospedado aqui.
