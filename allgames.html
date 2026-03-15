@@ -1,204 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bacanos Store — Filtro e Detalhes</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="jolly_roger_sapofrog.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoções | BacanosStore</title>
+    <link rel="stylesheet" href="misc/style.css">
+    <link rel="icon" href="misc/jolly_roger_sapofrog.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
 </head>
 <body>
+    
     <header>
         <div class="logo">
-            <h1>Bacanos Store 0.9.9</h1><img src="jolly_roger_sapofrog.png">
-        </div>
-        <div>
-            <a href="mudanca.html">
-            <button id="button">IMPORTANTE!!!</button>
-            </a>
+            <h1>Bacanos Store</h1><img src="misc/jolly_roger_sapofrog.png">
         </div>
     </header>
+
+    
     <nav>
         <ul>
             <li><a href="index.html">Início</a></li>
             <li><a href="allgames.html" class="active">Jogos</a></li>
-            <li><a href="promocao.html">Preservação</a></li>
-            <li><a href="info.html">Informações</a></li>
-            <li><a href="novidade.html">Novidades</a></li>
-            <li><a href="chat.html">Comunidade</a></li>
-            <li><a href="contato.html">Contato</a></li>
         </ul>
     </nav>
-    <main>
-        <h1>Bacanos Store</h1>
-        <section class="filtros">
-            <input type="text" id="busca" placeholder="Buscar jogo..." />
-            <button id="anterior">←</button>
-            <span id="pagina-atual">1</span>
-            <button id="proximo">→</button>
-        </section>
-        <section id="lista-jogos"></section>
-        <section id="detalhes" style="display:none;">
-            <button id="voltar">← Voltar</button>
-            <img id="detalhe-img" alt="" />
-            <h2 id="detalhe-titulo"></h2>
-            <!-- Apenas os links serão exibidos -->
-        </section>
-    </main>
+
+    
+    <section class="banner">
+        <h2>Jogos</h2>
+    </section>
+
+   
+    <section class="games-list">
+        <h2>Jogos Adicionados</h2>
+        <div class="game">
+            <img src="">
+            <h3>vou criar</h3>
+            <a href="" >
+            <button>Jogar</button>
+           </a>
+        </div>
+        <div class="game">
+            <img src="https://images7.alphacoders.com/556/thumb-1920-556730.jpg">
+            <h3>Minecraft</h3>
+            <a href="games/eaglercraft" >
+            <button>Jogar</button>
+           </a>
+        </div>
+        <div class="game">
+            <img src="" >
+            <h3>HENTAI!!!! NÃO CLIQUE</h3>
+            <a href="misc/Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" >
+            <button>Jogar</button>
+           </a>
+        </div>
+
+        
+    </section>
+
+   
     <footer>
-        <p>&copy; 2025 BacanosInc. Todos os direitos reservados.</p>
+        <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
         <div class="social-links">
             <a href="https://discord.gg/7qvhJUqZby">Discord</a>
-            <a href="https://github.com/bacanos-net/bacanos-netgithub.io.git">GitHub</a>
+            <a href="https://github.com/bacanos-net/bacanos-net.github.io">GitHub</a>
             <a href="https://www.reddit.com/user/Prunbo/">Reddit</a>
         </div>
     </footer>
-<script>
-const listaJogos = document.getElementById('lista-jogos');
-const buscaInput = document.getElementById('busca');
-const detalhesDiv = document.getElementById('detalhes');
-const voltarBtn = document.getElementById('voltar');
-
-let paginaAtual = 1;
-let jogos = [];
-let todosJogos = [];
-const JOGOS_POR_PAGINA = 20;
-
-function criarCard(jogo) {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `
-    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg" alt="${jogo.name}" />
-    <div class="info">
-      <div class="title">${jogo.name}</div>
-      <button class="comprar-btn">Download</button>
-    </div>`;
-  card.querySelector('.comprar-btn').onclick = (e) => {
-    e.stopPropagation();
-    mostrarDetalhes(jogo);
-  };
-  return card;
-}
-
-async function mostrarDetalhes(jogo) {
-  detalhesDiv.style.display = 'block';
-  listaJogos.style.display = 'none';
-  document.getElementById('detalhe-titulo').textContent = jogo.name;
-  document.getElementById('detalhe-img').src = jogo.header_image || `https://cdn.cloudflare.steamstatic.com/steam/apps/${jogo.appid}/header.jpg`;
-
-  let linksContainer = document.getElementById('detalhe-downloads');
-  if (linksContainer) linksContainer.remove();
-
-  linksContainer = document.createElement('div');
-  linksContainer.id = 'detalhe-downloads';
-  linksContainer.innerHTML = '<p><strong>Downloads:</strong></p>';
-
-  const fontes = [
-    { nome: 'Online Fix', arquivo: 'onlinefix.json' },
-    { nome: 'DODI', arquivo: 'dodi.json' },
-    { nome: 'AtopGames', arquivo: 'atop-games.json' },
-    { nome: 'SteamRip', arquivo: 'steamrip.json' },
-    { nome: 'GOG', arquivo: 'gog.json' },
-    { nome: 'Fit Girl', arquivo: 'fitgirl.json' },
-    { nome: 'Kazumi', arquivo: 'fontekazumi.json' },
-    { nome: 'Shisuy', arquivo: 'shisuysource.json' },
-    { nome: 'Xatab', arquivo: 'xatab.json' },
-    { nome: 'KaOsCrew', arquivo: 'kaoscrew.json' },
-    { nome: 'RuTracker', arquivo: 'rutracker.json' },
-    { nome: 'Wkeynhk', arquivo: 'wkeynhk.json' },
-    { nome: 'Empress', arquivo: 'empress.json' }
-  ];
-
-  for (const fonte of fontes) {
-    const fonteDiv = document.createElement('div');
-    fonteDiv.innerHTML = `<strong>${fonte.nome}:</strong> <span>Carregando...</span>`;
-    linksContainer.appendChild(fonteDiv);
-    try {
-      const res = await fetch(fonte.arquivo);
-      let data = await res.json().catch(() => null);
-      let resultados = [];
-      if (data && Array.isArray(data)) {
-        const fuse = new Fuse(data, { keys: ['title'], threshold: 0.1 });
-        resultados = fuse.search(jogo.name).map(r => r.item);
-      } else if (data && typeof data === 'object' && Array.isArray(data.downloads)) {
-        const fuse = new Fuse(data.downloads, { keys: ['title'], threshold: 0.1 });
-        resultados = fuse.search(jogo.name).map(r => r.item);
-      }
-      if (resultados.length > 0) {
-        const linksWrap = document.createElement('div');
-        resultados.forEach(item => {
-          const block = document.createElement('div');
-          block.className = 'download-link-block';
-          block.innerHTML = item.uris && item.uris[0]
-            ? `<a href="${item.uris[0]}" target="_blank">${item.title || 'Download'}</a>${item.fileSize ? ` <span>(${item.fileSize})</span>` : ''}`
-            : (item.title || 'Download');
-          linksWrap.appendChild(block);
+    <script>
+    // Torna a barra de pesquisa do header funcional
+    const headerBuscaInput = document.getElementById('header-busca');
+    const headerBuscarBtn = document.getElementById('header-buscar');
+    if (headerBuscaInput && headerBuscarBtn) {
+        function pesquisarHeader() {
+            const query = headerBuscaInput.value.trim();
+            if (query) {
+                localStorage.setItem('searchQuery', query);
+                window.location.href = 'allgames.html';
+            }
+        }
+        headerBuscarBtn.addEventListener('click', pesquisarHeader);
+        headerBuscaInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') pesquisarHeader();
         });
-        fonteDiv.querySelector('span').replaceWith(linksWrap);
-      } else {
-        fonteDiv.querySelector('span').textContent = 'sem resultados para essa fonte';
-      }
-    } catch {
-      fonteDiv.querySelector('span').textContent = 'sem resultados para essa fonte';
     }
-  }
-  detalhesDiv.appendChild(linksContainer);
-}
-
-function filtrarJogos(buscaOverride) {
-  const busca = (typeof buscaOverride === 'string' ? buscaOverride : buscaInput.value.trim()).toLowerCase();
-  let filtrados = todosJogos;
-  if (busca) {
-    filtrados = filtrados.filter(j => j.name && j.name.toLowerCase().includes(busca));
-  }
-  const inicio = (paginaAtual - 1) * JOGOS_POR_PAGINA;
-  const fim = inicio + JOGOS_POR_PAGINA;
-  jogos = filtrados.slice(inicio, fim);
-  listaJogos.innerHTML = '';
-  jogos.forEach(jogo => {
-    listaJogos.appendChild(criarCard(jogo));
-  });
-  document.getElementById('pagina-atual').textContent = paginaAtual;
-}
-
-async function carregarTodosJogos() {
-  if (todosJogos.length > 0) return;
-  const response = await fetch('steamspy.json');
-  const data = await response.json();
-  todosJogos = Object.values(data).filter(j => j && j.name);
-}
-
-async function carregarJogos() {
-  listaJogos.textContent = 'Carregando...';
-  await carregarTodosJogos();
-  filtrarJogos();
-}
-
-document.getElementById('proximo').onclick = () => {
-  paginaAtual++;
-  filtrarJogos();
-};
-
-document.getElementById('anterior').onclick = () => {
-  if (paginaAtual > 1) {
-    paginaAtual--;
-    filtrarJogos();
-  }
-};
-
-buscaInput.addEventListener('input', () => {
-  paginaAtual = 1;
-  filtrarJogos();
-});
-
-voltarBtn.addEventListener('click', () => {
-  detalhesDiv.style.display = 'none';
-  listaJogos.style.display = '';
-});
-
-document.addEventListener('DOMContentLoaded', carregarJogos);
-</script>
+    </script>
 </body>
 </html>
