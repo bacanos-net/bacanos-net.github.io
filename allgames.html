@@ -48,23 +48,5 @@
         <div class="social-links">
         </div>
     </footer>
-    <script>
-    // Torna a barra de pesquisa do header funcional
-    const headerBuscaInput = document.getElementById('header-busca');
-    const headerBuscarBtn = document.getElementById('header-buscar');
-    if (headerBuscaInput && headerBuscarBtn) {
-        function pesquisarHeader() {
-            const query = headerBuscaInput.value.trim();
-            if (query) {
-                localStorage.setItem('searchQuery', query);
-                window.location.href = 'allgames.html';
-            }
-        }
-        headerBuscarBtn.addEventListener('click', pesquisarHeader);
-        headerBuscaInput.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') pesquisarHeader();
-        });
-    }
-    </script>
 </body>
 </html>
