@@ -1,181 +1,70 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Promoções | BacanosStore</title>
-
     <link rel="stylesheet" href="misc/style.css">
-
     <link rel="icon" href="misc/jolly_roger_sapofrog.png" type="image/x-icon">
-
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-
 </head>
-
 <body>
-
-    
-
     <header>
-
         <div class="logo">
-
             <h1>Bacanos Store</h1><img src="misc/jolly_roger_sapofrog.png">
-
         </div>
-
     </header>
-
-
-
-    
-
     <nav>
-
         <ul>
-
             <li><a href="index.html">Início</a></li>
-
             <li><a href="allgames.html" class="active">Jogos</a></li>
-
         </ul>
-
     </nav>
-
-
-
-    
-
-    <section class="banner">
-
-        <h2>Jogos</h2>
-
+<section class="banner">
+        <h2>Biblioteca de Jogos</h2>
     </section>
-
-
-
-   
-
-    <section class="games-list">
-
-        <h2>Jogos Adicionados</h2>
-
-        <div class="game">
-
-            <img src="">
-
-            <h3>vou criar</h3>
-
-            <a href="" >
-
-            <button>Jogar</button>
-
-           </a>
-
+    <section class="games-container">
+        <div class="card">
+            <img src="https://images7.alphacoders.com/556/thumb-1920-556730.jpg" alt="Minecraft">
+            <div class="card-content">
+                <h3>Minecraft</h3>
+                <div style="display: flex; gap: 10px; flex-direction: column;">
+                    <a href="games/EaglercraftX_1.8_JS.html" class="btn-primary" style="text-decoration: none;">JavaScript</a>
+                    <a href="games/EaglercraftX_1.8_WASM.html" class="btn-primary" style="text-decoration: none;">WebAssembly</a>
+                </div>
+            </div>
         </div>
-
-        <div class="game">
-
-            <img src="https://images7.alphacoders.com/556/thumb-1920-556730.jpg">
-
-            <h3>Minecraft</h3>
-
-            <a href="games/EaglercraftX_1.8_JS.html" >
-
-            <button>JavaScript</button>
-
-           </a>
-
-            <a href="games/EaglercraftX_1.8_WASM.html" >
-
-            <button>WebAssembly</button>
-
-           </a>
-
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Secret+Content" alt="Surpresa">
+            <div class="card-content">
+                <h3>Conteúdo Extra</h3>
+                <p>Não clique se for sensível!</p>
+                <a href="misc/Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" class="btn-primary" style="text-decoration: none;">Jogar</a>
+            </div>
         </div>
-
-        <div class="game">
-
-            <img src="" >
-
-            <h3>HENTAI!!!! NÃO CLIQUE</h3>
-
-            <a href="misc/Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" >
-
-            <button>Jogar</button>
-
-           </a>
-
-        </div>
-
-
-
-        
-
     </section>
-
-
-
-   
-
     <footer>
-
         <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
-
         <div class="social-links">
-
-            <a href="https://discord.gg/7qvhJUqZby">Discord</a>
-
-            <a href="https://github.com/bacanos-net/bacanos-net.github.io">GitHub</a>
-
-            <a href="https://www.reddit.com/user/Prunbo/">Reddit</a>
-
         </div>
-
     </footer>
-
     <script>
-
     // Torna a barra de pesquisa do header funcional
-
     const headerBuscaInput = document.getElementById('header-busca');
-
     const headerBuscarBtn = document.getElementById('header-buscar');
-
     if (headerBuscaInput && headerBuscarBtn) {
-
         function pesquisarHeader() {
-
             const query = headerBuscaInput.value.trim();
-
             if (query) {
-
                 localStorage.setItem('searchQuery', query);
-
                 window.location.href = 'allgames.html';
-
             }
-
         }
-
         headerBuscarBtn.addEventListener('click', pesquisarHeader);
-
         headerBuscaInput.addEventListener('keyup', function(e) {
-
             if (e.key === 'Enter') pesquisarHeader();
-
         });
-
     }
-
     </script>
-
 </body>
-
 </html>
