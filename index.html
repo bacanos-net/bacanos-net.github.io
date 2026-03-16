@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bacanos Store</title>
+    <title>Bacanos Store | Início</title>
     <link rel="stylesheet" href="misc/style.css">
-    <link rel="icon" href="misc/jolly_roger_sapofrog.png" type="image/x-icon">
+    <link rel="icon" href="misc/jolly_roger_sapofrog.png">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
 </head>
 <body>
     
     <header>
         <div class="logo">
-            <h1>Bacanos Store</h1><img src="misc/jolly_roger_sapofrog.png">
+            <h1>Bacanos Store</h1>
+            <img src="misc/jolly_roger_sapofrog.png" alt="Logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="header-busca" placeholder="Buscar...">
+            <button id="header-buscar" class="btn-primary">Buscar</button>
         </div>
     </header>
 
-    
     <nav>
         <ul>
             <li><a href="index.html" class="active">Início</a></li>
@@ -24,50 +28,47 @@
         </ul>
     </nav>
 
-    
     <section class="banner">
         <h2>Manda o PIX</h2>
-        <p>Apoie nosso projeto</p>
-        <a href="coin.html" >
-            <button>Doações!</button>
-        </a>
+        <p>Apoie nosso projeto educacional</p>
+        <a href="coin.html" class="btn-primary" style="display: inline-block; text-decoration: none; margin-top: 15px;">Doações!</a>
     </section>
 
+    <main style="padding: 20px; max-width: 1200px; margin: 0 auto; text-align: center;">
+        <h1>Sobre nosso projeto</h1>
+        <p>Projeto com objetivos educacionais e foco em aprendizado.</p>
+        <p><strong>100% grátis e 0% anúncios.</strong></p>
+        <p>Veja mais informações <a href="https://pirataria.link" style="color: var(--primary-hover);">AQUI</a></p>
+    </main>
 
-    <h1>Sobre nosso projeto:</h1>
-    <p>Goveno de merda, vocês não vão me impedir de jogar</p>
-    <p>Projeto com objetivos educacionais, o nosso único benefício é o aprendizado por isso começamos a Bacanos Store.</p>
-    <p>100% grátis e 0% anúncios, só jogar.</p>
-    <h2>Veja mais informações<a href="https://pirataria.link" style="color: #1f8a05;">AQUI</a></h2>
-
-    <section class="games-list">
-        <div class="game">
-            <h3>GitHub</h3>
-            <a href="https://github.com/bacanos-net/bacanos-net.github.io" >
-            <button>Acessar</button>
-           </a>
+    <section class="games-container">
+        <div class="card">
+            <div class="card-content">
+                <h3>GitHub</h3>
+                <p>Veja o código fonte no nosso repositório oficial.</p>
+                <a href="https://github.com/bacanos-net/bacanos-net.github.io" class="btn-primary" style="text-decoration: none;">Acessar</a>
+            </div>
         </div>
 
-        <div class="game">
-            <h3>Apoie</h3>
-            <a href="coin.html" >
-            <button>Acessar</button>
-           </a>
+        <div class="card">
+            <div class="card-content">
+                <h3>Apoie</h3>
+                <p>Ajude a manter o servidor online.</p>
+                <a href="coin.html" class="btn-primary" style="text-decoration: none;">Acessar</a>
+            </div>
         </div>
 
-        <div class="game">
-            <h3>VPN</h3>
-            <a href="https://psiphon.ca/psiphon3.exe" >
-            <button>Acessar</button>
-           </a>
+        <div class="card">
+            <div class="card-content">
+                <h3>VPN</h3>
+                <p>Download do Psiphon para navegação segura.</p>
+                <a href="https://psiphon.ca/psiphon3.exe" class="btn-primary" style="text-decoration: none;">Baixar</a>
+            </div>
         </div>
-
     </section>
-    
+
     <footer>
         <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
-        <div class="social-links">
-        </div>
     </footer>
 </body>
 </html>
