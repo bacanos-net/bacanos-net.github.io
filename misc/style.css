@@ -222,7 +222,7 @@ nav ul li a:hover {
 .games-list .game button {
     padding: 12px 28px;
     border: none;
-    border-radius: 0 0 18px 18px;
+    border-radius: 18px;
     background-color: #aaff00;
     color: #222;
     cursor: pointer;
