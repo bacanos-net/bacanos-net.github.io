@@ -13,6 +13,7 @@
         <div class="logo">
             <h1>Bacanos Store</h1><img src="misc/jolly_roger_sapofrog.png">
         </div>
+        <button onclick="window.location.href='login.html'" class="btn-primary">Adicionar jogos</button>
     </header>
     <nav>
         <ul>
@@ -23,36 +24,16 @@
 <section class="banner">
         <h2>Biblioteca de Jogos</h2>
     </section>
-    <section class="games-container">
-        <div class="card">
-            <img src="https://images7.alphacoders.com/556/thumb-1920-556730.jpg" alt="Minecraft">
-            <div class="card-content">
-                <h3>Minecraft</h3>
-                <div style="display: flex; gap: 10px; flex-direction: column;">
-                    <a href="games/EaglercraftX_1.8_JS.html" class="btn-primary" style="text-decoration: none;">JavaScript</a>
-                    <a href="games/EaglercraftX_1.8_WASM.html" class="btn-primary" style="text-decoration: none;">WebAssembly</a>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://lh3.googleusercontent.com/rodcvh2xxXqvXn-aUljtQT96C126U2_WryLhJS44O4SIfGISbG8WRzqzlY5gL_fgtxuu8opinmgRQNU_d8q_F42681k=s1280-w1280-h800" alt="polytrack">
-            <div class="card-content">
-                <h3>Polytrack</h3>
-                <a href="https://kodub.itch.io/polytrack" class="btn-primary" style="text-decoration: none;">Jogar</a>
-            </div>
-        </div>
-            <div class="card">
-            <img src="https://img.itch.zone/aW1hZ2UvNDIwMTQ0Ni8yNTI1Nzc5MS5wbmc=/794x1000/T3dclh.png" alt="idleautomation">
-            <div class="card-content">
-                <h3>IdleAutomation</h3>
-                <a href="https://ludenio.itch.io/superweird-alpha" class="btn-primary" style="text-decoration: none;">Jogar</a>
-            </div>
-        </div>
-    </section>
+    <main id="jogos" class="games-container">
+
+    </main>
     <footer>
         <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
         <div class="social-links">
         </div>
     </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
