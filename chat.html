@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bacanos Store | Chat</title>
+    <link rel="stylesheet" href="misc/style.css" />
+    <link rel="icon" href="misc/jolly_roger_sapofrog.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=JetBrains Mono"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>Bacanos Store</h1>
+        <img src="misc/jolly_roger_sapofrog.png" alt="Logo" />
+      </div>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="allgames.html">Jogos</a></li>
+        <li><a href="chat.html" class="active">Chat</a></li>
+      </ul>
+    </nav>
+
+    <section class="banner">
+      <h2>Bacanos-NET</h2>
+      <p>Converse com a comunidade e tire suas dúvidas.</p>
+    </section>
+
+    <main class="chat-wrapper">
+      <div class="chat-container">
+        <div class="chat-header">
+          <h3>Sala Principal</h3>
+          <div class="status">
+            <div class="status-dot"></div>
+            <span>Online</span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+          <div class="message received">
+            Bem-vindo ao chat da Bacanos Store! Como podemos ajudar hoje?
+            <span class="message-info">Sistema • 10:00</span>
+          </div>
+
+          <div class="message sent">
+            Olá! Gostaria de saber se o Psiphon está atualizado.
+            <span class="message-info">Você • 10:02</span>
+          </div>
+
+          <div class="message received">
+            Sim! A versão disponível no site é a mais recente.
+            <span class="message-info">Moderador • 10:03</span>
+          </div>
+        </div>
+
+        <form class="chat-input-area" id="chatForm">
+          <input
+            type="text"
+            placeholder="Digite sua mensagem..."
+            id="messageInput"
+            required
+          />
+          <button type="submit" class="btn-primary">Enviar</button>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
+      <div class="social-links">
+        <a href="https://github.com/bacanos-net">GitHub</a>
+        <a href="#">Discord</a>
+      </div>
+    </footer>
+    <script src="chat.js"></script>
+  </body>
+</html>
