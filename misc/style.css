@@ -6,7 +6,7 @@
   --text-dark: #222;
   --text-muted: #555;
   --white: #ffffff;
-  --shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
+  --shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   --shadow-hover: 0 12px 32px rgba(122, 255, 0, 0.15);
   --transition: 0.2s ease-in-out;
   --radius: 18px;
@@ -19,12 +19,11 @@
 }
 
 body {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   background: linear-gradient(120deg, #f4f4f4 70%, var(--bg-light) 100%);
   color: var(--text-dark);
   line-height: 1.6;
 }
-
 
 .btn-primary {
   padding: 12px 24px;
@@ -118,7 +117,6 @@ nav ul li a:hover {
   color: var(--text-dark);
 }
 
-
 .banner {
   text-align: center;
   padding: 60px 20px;
@@ -131,7 +129,6 @@ nav ul li a:hover {
   font-size: clamp(24px, 5vw, 38px);
   margin-bottom: 10px;
 }
-
 
 .games-container {
   display: grid;
@@ -192,7 +189,6 @@ nav ul li a:hover {
   font-size: 1.4em;
 }
 
-
 .filtros {
   display: flex;
   flex-wrap: wrap;
@@ -209,7 +205,6 @@ nav ul li a:hover {
   outline: none;
 }
 
-
 #detalhes {
   background: var(--white);
   border-radius: var(--radius);
@@ -219,7 +214,6 @@ nav ul li a:hover {
   box-shadow: var(--shadow);
   text-align: center;
 }
-
 
 footer {
   background: var(--dark);
@@ -242,6 +236,13 @@ footer {
   font-weight: bold;
 }
 
+.chat-controls {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
 @media (max-width: 600px) {
   header {
@@ -256,33 +257,4 @@ footer {
   .banner {
     padding: 40px 10px;
   }
-}
-
-.mensagem {
-  padding: 10px 15px;
-  border-radius: 15px;
-  max-width: 80%;
-  word-wrap: break-word;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.mensagem.enviada {
-  background-color: #2ecc71;
-  align-self: flex-end;
-  color: black;
-}
-
-.mensagem.recebida {
-  background-color: #444;
-  align-self: flex-start;
-  color: white;
-}
-
-
-.chat-controls {
-  max-width: 800px;
-  width: 90%;
-  margin: 0 auto 20px;
-  display: flex;
-  gap: 10px;
 }
