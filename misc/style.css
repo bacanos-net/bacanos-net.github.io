@@ -25,7 +25,7 @@ body {
   line-height: 1.6;
 }
 
-/* --- Componentes Reutilizáveis --- */
+
 .btn-primary {
   padding: 12px 24px;
   border: none;
@@ -43,7 +43,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* --- Header & Nav --- */
 header {
   display: flex;
   justify-content: space-between;
@@ -119,7 +118,7 @@ nav ul li a:hover {
   color: var(--text-dark);
 }
 
-/* --- Banner --- */
+
 .banner {
   text-align: center;
   padding: 60px 20px;
@@ -133,7 +132,7 @@ nav ul li a:hover {
   margin-bottom: 10px;
 }
 
-/* --- Grid de Jogos (Unificado) --- */
+
 .games-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -193,7 +192,7 @@ nav ul li a:hover {
   font-size: 1.4em;
 }
 
-/* --- Filtros --- */
+
 .filtros {
   display: flex;
   flex-wrap: wrap;
@@ -210,7 +209,7 @@ nav ul li a:hover {
   outline: none;
 }
 
-/* --- Detalhes do Jogo --- */
+
 #detalhes {
   background: var(--white);
   border-radius: var(--radius);
@@ -221,7 +220,7 @@ nav ul li a:hover {
   text-align: center;
 }
 
-/* --- Footer --- */
+
 footer {
   background: var(--dark);
   color: var(--white);
@@ -243,7 +242,7 @@ footer {
   font-weight: bold;
 }
 
-/* --- Mobile Responsivo --- */
+
 @media (max-width: 600px) {
   header {
     padding: 20px;
@@ -257,4 +256,33 @@ footer {
   .banner {
     padding: 40px 10px;
   }
+}
+
+.mensagem {
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mensagem.enviada {
+  background-color: #2ecc71;
+  align-self: flex-end;
+  color: black;
+}
+
+.mensagem.recebida {
+  background-color: #444;
+  align-self: flex-start;
+  color: white;
+}
+
+
+.chat-controls {
+  max-width: 800px;
+  width: 90%;
+  margin: 0 auto 20px;
+  display: flex;
+  gap: 10px;
 }
