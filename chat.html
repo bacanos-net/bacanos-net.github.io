@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bacanos Store | Chat</title>
-    <link rel="stylesheet" href="misc/style.css" />
     <link rel="icon" href="misc/jolly_roger_sapofrog.png" />
     <link
       href="https://fonts.googleapis.com/css?family=JetBrains Mono"
@@ -27,56 +26,22 @@
       </ul>
     </nav>
 
-    <section class="banner">
-      <h2>Bacanos-NET</h2>
-      <p>Converse com a comunidade e tire suas dúvidas.</p>
-    </section>
+    <div id="chat-container">
+      <header id="chat-header">
+        <h2>💬 TurmaChat</h2>
+      </header>
 
-    <main class="chat-wrapper">
-      <div class="chat-container">
-        <div class="chat-header">
-          <h3>Sala Principal</h3>
-          <div class="status">
-            <div class="status-dot"></div>
-            <span>Online</span>
-          </div>
-        </div>
+      <main id="area-mensagens">
+      </main>
 
-        <div class="chat-messages" id="chatMessages">
-          <div class="message received">
-            Bem-vindo ao chat da Bacanos Store! Como podemos ajudar hoje?
-            <span class="message-info">Sistema • 10:00</span>
-          </div>
-
-          <div class="message sent">
-            Olá! Gostaria de saber se o Psiphon está atualizado.
-            <span class="message-info">Você • 10:02</span>
-          </div>
-
-          <div class="message received">
-            Sim! A versão disponível no site é a mais recente.
-            <span class="message-info">Moderador • 10:03</span>
-          </div>
-        </div>
-
-        <form class="chat-input-area" id="chatForm">
-          <input
-            type="text"
-            placeholder="Digite sua mensagem..."
-            id="messageInput"
-            required
-          />
-          <button type="submit" class="btn-primary">Enviar</button>
-        </form>
-      </div>
-    </main>
+      <footer id="area-input">
+        <input type="text" id="input-texto" placeholder="Digite sua mensagem...">
+        <button id="btn-enviar">Enviar</button>
+      </footer>
+    </div>
 
     <footer>
       <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
-      <div class="social-links">
-        <a href="https://github.com/bacanos-net">GitHub</a>
-        <a href="#">Discord</a>
-      </div>
     </footer>
     <script src="chat.js"></script>
   </body>

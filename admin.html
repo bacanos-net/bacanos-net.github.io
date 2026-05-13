@@ -1,90 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adicionar Jogo | BacanosStore</title>
-    <link rel="stylesheet" href="misc/style.css">
-    <link rel="icon" href="misc/jolly_roger_sapofrog.png" type="image/x-icon">
-    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-    <script>      window.history.replaceState({}, "", "/painel");
+    <link rel="stylesheet" href="misc/style.css" />
+    <link rel="icon" href="misc/jolly_roger_sapofrog.png" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=JetBrains Mono"
+      rel="stylesheet"
+    />
+    <script>
+      window.history.replaceState({}, "", "/painel");
       if (
         document.referrer === "login.html" ||
         !document.referrer.includes("login")
       ) {
         window.location.href = "index.html";
-      }</script>
-</head>
-<body>
+      }
+    </script>
+  </head>
+  <body>
     <header>
-        <div class="logo">
-            <h1>Bacanos Store</h1><img src="misc/jolly_roger_sapofrog.png" alt="Logo Bacanos Store">
-        </div>
+      <div class="logo">
+        <h1>Bacanos Store</h1>
+        <img src="misc/jolly_roger_sapofrog.png" alt="Logo Bacanos Store" />
+      </div>
     </header>
-    
+
     <nav>
-        <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="allgames.html">Jogos</a></li>
-        </ul>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="allgames.html">Jogos</a></li>
+        <li><a href="chat.html">Chat</a></li>
+      </ul>
     </nav>
 
     <section class="banner">
-        <h2>Cadastrar Novo Jogo</h2>
+      <h2>Cadastrar Novo Jogo</h2>
     </section>
 
-    <main id="detalhes" style="max-width: 600px; margin: 0 auto 40px auto;">
-        
-        <div class="form-grupo" style="margin-bottom: 20px; text-align: left;">
-            <label for="input-nome" style="font-weight: bold; margin-bottom: 8px; display: block;">Nome do Jogo</label>
-            <input 
-                type="text" 
-                id="input-nome" 
-                placeholder="Ex: Hollow Knight" 
-                style="width: 100%; padding: 12px; border: 2px solid var(--primary); border-radius: 8px; outline: none; font-family: 'JetBrains Mono', monospace;"
-            >
-        </div>
+    <main id="detalhes" style="max-width: 600px; margin: 0 auto 40px auto">
+      <div class="form-grupo" style="margin-bottom: 20px; text-align: left">
+        <label
+          for="input-nome"
+          style="font-weight: bold; margin-bottom: 8px; display: block"
+          >Nome do Jogo</label
+        >
+        <input
+          type="text"
+          id="input-nome"
+          placeholder="Ex: Hollow Knight"
+          style="
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+          "
+        />
+      </div>
 
-        <div class="form-grupo" style="margin-bottom: 20px; text-align: left;">
-            <label for="input-link-jogo" style="font-weight: bold; margin-bottom: 8px; display: block;">Link do Jogo</label>
-            <input 
-                type="url" 
-                id="input-link-jogo" 
-                placeholder="https://site-do-jogo.com" 
-                style="width: 100%; padding: 12px; border: 2px solid var(--primary); border-radius: 8px; outline: none; font-family: 'JetBrains Mono', monospace;"
-            >
-        </div>
+      <div class="form-grupo" style="margin-bottom: 20px; text-align: left">
+        <label
+          for="input-link-jogo"
+          style="font-weight: bold; margin-bottom: 8px; display: block"
+          >Link do Jogo</label
+        >
+        <input
+          type="url"
+          id="input-link-jogo"
+          placeholder="https://site-do-jogo.com"
+          style="
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+          "
+        />
+      </div>
 
-        <div class="form-grupo" style="margin-bottom: 30px; text-align: left;">
-            <label for="input-link-imagem" style="font-weight: bold; margin-bottom: 8px; display: block;">Link da Imagem (Capa)</label>
-            <input 
-                type="url" 
-                id="input-link-imagem" 
-                placeholder="https://site.com/imagem.png" 
-                style="width: 100%; padding: 12px; border: 2px solid var(--primary); border-radius: 8px; outline: none; font-family: 'JetBrains Mono', monospace;"
-            >
-        </div>
+      <div class="form-grupo" style="margin-bottom: 30px; text-align: left">
+        <label
+          for="input-link-imagem"
+          style="font-weight: bold; margin-bottom: 8px; display: block"
+          >Link da Imagem (Capa)</label
+        >
+        <input
+          type="url"
+          id="input-link-imagem"
+          placeholder="https://site.com/imagem.png"
+          style="
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+          "
+        />
+      </div>
 
-        <div class="botoes-grupo">
-            <button onclick="salvarJogo()" class="btn-primary" id="btn-adicionar" style="width: 100%; font-size: 16px;">
-                Salvar Jogo
-            </button>
-            <button onclick="deletarJogo()" style="width: 100%; font-size: 16px; padding: 12px 24px; border: none; border-radius: 8px; background-color: #ff4444; color: white; font-weight: bold; cursor: pointer; margin-top: 10px;">
-                Deletar Jogo
-            </button>
-        </div>
-        
-        <p id="mensagem-aviso" style="margin-top: 15px; font-weight: bold; text-align: center;"></p>
-        
+      <div class="botoes-grupo">
+        <button
+          onclick="salvarJogo()"
+          class="btn-primary"
+          id="btn-adicionar"
+          style="width: 100%; font-size: 16px"
+        >
+          Salvar Jogo
+        </button>
+        <button
+          onclick="deletarJogo()"
+          style="
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff4444;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+          "
+        >
+          Deletar Jogo
+        </button>
+      </div>
+
+      <p
+        id="mensagem-aviso"
+        style="margin-top: 15px; font-weight: bold; text-align: center"
+      ></p>
     </main>
 
     <footer>
-        <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
-        <div class="social-links">
-        </div>
+      <p>&copy; 2026 BacanosInc. Todos os direitos reservados.</p>
+      <div class="social-links"></div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
