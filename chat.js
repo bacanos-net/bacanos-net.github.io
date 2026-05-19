@@ -7,12 +7,10 @@ const firebaseConfig = {
   appId: "1:747324004819:web:187548329a3e35d5127726",
 };
 
-// 2. Inicializando os serviços
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore(); // Inicializa o Firestore
+const db = firebase.firestore();
 
-// 3. Mapeando elementos do DOM
 const telaLogin = document.getElementById("tela-login");
 const chatContainer = document.getElementById("chat-container");
 const btnLogin = document.getElementById("btn-login");
@@ -24,94 +22,106 @@ const btnEnviar = document.getElementById("btn-enviar");
 
 let usuarioAtual = null;
 
-// --- LÓGICA DE AUTENTICAÇÃO ---
-
-// Observador de estado de login (mantém logado ao atualizar a página)
 auth.onAuthStateChanged((user) => {
   if (user) {
     usuarioAtual = user;
     telaLogin.style.display = "none";
     chatContainer.style.display = "flex";
-    carregarMensagens(); // Começa a ouvir as mensagens
+    carregarMensagens();
   } else {
     usuarioAtual = null;
     telaLogin.style.display = "flex";
     chatContainer.style.display = "none";
-    areaMensagens.innerHTML = ""; // Limpa o chat ao sair
+    areaMensagens.innerHTML = "";
   }
 });
 
-// Login com Google
-btnLogin.onclick = function () {
+btnLogin.onclick = () => {
   const provedorGoogle = new firebase.auth.GoogleAuthProvider();
   auth
     .signInWithPopup(provedorGoogle)
     .catch((erro) => alert("Erro: " + erro.message));
 };
 
-// Login Anônimo
-btnAnonimo.onclick = function () {
+btnAnonimo.onclick = () => {
   auth.signInAnonymously().catch((erro) => alert("Erro: " + erro.message));
 };
 
-// Logout
-btnSair.onclick = function () {
-  auth.signOut();
-};
+btnSair.onclick = () => auth.signOut();
 
-// --- LÓGICA DO CHAT (FIRESTORE) ---
-
-// Função para enviar mensagem para o Firestore
-function enviarMensagem() {
+// Função para enviar mensagem e limpar o histórico se passar de 100
+async function enviarMensagem() {
   const texto = inputTexto.value.trim();
   if (texto === "" || !usuarioAtual) return;
 
-  // Salva no banco de dados
-  db.collection("mensagens")
-    .add({
+  try {
+    // 1. Envia a nova mensagem
+    await db.collection("mensagens").add({
       texto: texto,
       nome: usuarioAtual.displayName || "Anônimo",
       uid: usuarioAtual.uid,
-      data: firebase.firestore.FieldValue.serverTimestamp(), // Hora do servidor
-    })
-    .then(() => {
-      inputTexto.value = "";
-      rolarParaBaixo();
-    })
-    .catch((erro) => console.error("Erro ao salvar:", erro));
+      data: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    inputTexto.value = "";
+    rolarParaBaixo();
+
+    // 2. Verifica se existem mais de 100 mensagens e apaga as antigas
+    const snapshot = await db
+      .collection("mensagens")
+      .orderBy("data", "desc")
+      .get();
+    if (snapshot.size > 100) {
+      const batch = db.batch();
+      // Pega todas as mensagens após a centésima mais recente
+      snapshot.docs.slice(100).forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
+      console.log("Histórico limpo: mantendo apenas as 100 mais recentes.");
+    }
+  } catch (erro) {
+    console.error("Erro no processo de envio:", erro);
+  }
 }
 
-// Função para carregar mensagens em tempo real
 function carregarMensagens() {
-  // Ouve a coleção "mensagens" ordenada por data
+  // Ouve apenas as 100 mensagens mais recentes para economizar recursos
   db.collection("mensagens")
-    .orderBy("data", "asc")
+    .orderBy("data", "desc")
+    .limit(100)
     .onSnapshot((snapshot) => {
-      areaMensagens.innerHTML = ""; // Limpa para reconstruir (ou você pode processar apenas as novas)
+      // Pegamos os documentos, invertemos para mostrar do mais antigo para o mais novo na tela
+      const docs = [];
+      snapshot.forEach((doc) => docs.push(doc.data()));
+      docs.reverse();
 
-      snapshot.forEach((doc) => {
-        const dados = doc.data();
-        exibirMensagem(dados);
+      areaMensagens.innerHTML = "";
+      docs.forEach((dados) => {
+        if (dados.data) {
+          // Evita erro se o timestamp do servidor ainda não chegou
+          exibirMensagem(dados);
+        }
       });
       rolarParaBaixo();
     });
 }
 
-// Função para criar o HTML da mensagem
 function exibirMensagem(dados) {
   const novaBolha = document.createElement("div");
   const eMinha = dados.uid === usuarioAtual.uid;
 
   novaBolha.classList.add("mensagem");
-  novaBolha.classList.add(eMinha ? "minha-mensagem" : "outra-mensagem");
+  novaBolha.classList.add(eMinha ? "enviada" : "recebida");
 
-  // Adiciona o nome do usuário acima da mensagem
   const spanNome = document.createElement("span");
   spanNome.classList.add("nome-usuario");
   spanNome.innerText = dados.nome;
 
   novaBolha.appendChild(spanNome);
-  novaBolha.append(dados.texto);
+
+  const textoMsg = document.createTextNode(dados.texto);
+  novaBolha.appendChild(textoMsg);
 
   areaMensagens.appendChild(novaBolha);
 }
@@ -120,7 +130,6 @@ function rolarParaBaixo() {
   areaMensagens.scrollTop = areaMensagens.scrollHeight;
 }
 
-// Eventos de clique e teclado
 btnEnviar.onclick = enviarMensagem;
 inputTexto.addEventListener("keypress", (e) => {
   if (e.key === "Enter") enviarMensagem();
