@@ -1,4 +1,3 @@
-// 1. Configuração do Firebase (Cole AS SUAS CHAVES aqui)
 const firebaseConfig = {
   apiKey: "AIzaSyBTp8oCK8qI96g7ru4Ot69v9Zh8Q01jRZk",
   authDomain: "appclicker67.firebaseapp.com",
@@ -11,80 +10,118 @@ const firebaseConfig = {
 // 2. Inicializando os serviços
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore(); // Inicializa o Firestore
 
-// 3. Mapeando os novos elementos do DOM
+// 3. Mapeando elementos do DOM
 const telaLogin = document.getElementById("tela-login");
 const chatContainer = document.getElementById("chat-container");
 const btnLogin = document.getElementById("btn-login");
-
-// Variável global para guardar os dados de quem logou
-let usuarioAtual = null;
-
-// 4. Função de Login com Google
-btnLogin.onclick = function () {
-  const provedorGoogle = new firebase.auth.GoogleAuthProvider();
-
-  auth
-    .signInWithPopup(provedorGoogle)
-    .then(function (resultado) {
-      // Deu certo! Guarda os dados do usuário
-      usuarioAtual = resultado.user;
-      console.log("Logado como:", usuarioAtual.displayName);
-
-      // Esconde o Login e Mostra o Chat
-      telaLogin.style.display = "none";
-      chatContainer.style.display = "flex";
-    })
-    .catch(function (erro) {
-      alert("Erro ao fazer login: " + erro.message);
-    });
-};
-// 1. Mapeando o DOM
+const btnAnonimo = document.getElementById("btn-anonimo");
+const btnSair = document.getElementById("btn-sair");
 const areaMensagens = document.getElementById("area-mensagens");
 const inputTexto = document.getElementById("input-texto");
 const btnEnviar = document.getElementById("btn-enviar");
 
-// 2. Função Principal de Envio
-function enviarMensagem() {
-  // Pega o valor e remove espaços vazios nas pontas
-  const textoDaMensagem = inputTexto.value.trim();
+let usuarioAtual = null;
 
-  // Trava: Se o texto for vazio, sai da função e não faz nada
-  if (textoDaMensagem === "") {
-    return;
-  }
+// --- LÓGICA DE AUTENTICAÇÃO ---
 
-  // 3. Criação dinâmica do elemento HTML (DOM)
-  const novaBolha = document.createElement("div");
-  novaBolha.classList.add("mensagem", "minha-mensagem");
-  novaBolha.innerText = textoDaMensagem;
-
-  // 4. Injeta a mensagem na área do chat
-  areaMensagens.appendChild(novaBolha);
-
-  // 5. Limpa a barra de digitação
-  inputTexto.value = "";
-}
-
-// 6. Conecta o botão de Enviar à nossa função
-btnEnviar.onclick = enviarMensagem;
-
-// 7. Enviar mensagem ao apertar a tecla "Enter"
-inputTexto.addEventListener("keypress", function (evento) {
-  if (evento.key === "Enter") {
-    enviarMensagem();
-    rolarParaBaixo(); // Chama o auto-scroll
+// Observador de estado de login (mantém logado ao atualizar a página)
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    usuarioAtual = user;
+    telaLogin.style.display = "none";
+    chatContainer.style.display = "flex";
+    carregarMensagens(); // Começa a ouvir as mensagens
+  } else {
+    usuarioAtual = null;
+    telaLogin.style.display = "flex";
+    chatContainer.style.display = "none";
+    areaMensagens.innerHTML = ""; // Limpa o chat ao sair
   }
 });
 
-// Atualiza o clique do botão para também fazer o scroll
-btnEnviar.onclick = function () {
-  enviarMensagem();
-  rolarParaBaixo();
+// Login com Google
+btnLogin.onclick = function () {
+  const provedorGoogle = new firebase.auth.GoogleAuthProvider();
+  auth
+    .signInWithPopup(provedorGoogle)
+    .catch((erro) => alert("Erro: " + erro.message));
 };
 
-// 8. Função de Auto-Scroll
+// Login Anônimo
+btnAnonimo.onclick = function () {
+  auth.signInAnonymously().catch((erro) => alert("Erro: " + erro.message));
+};
+
+// Logout
+btnSair.onclick = function () {
+  auth.signOut();
+};
+
+// --- LÓGICA DO CHAT (FIRESTORE) ---
+
+// Função para enviar mensagem para o Firestore
+function enviarMensagem() {
+  const texto = inputTexto.value.trim();
+  if (texto === "" || !usuarioAtual) return;
+
+  // Salva no banco de dados
+  db.collection("mensagens")
+    .add({
+      texto: texto,
+      nome: usuarioAtual.displayName || "Anônimo",
+      uid: usuarioAtual.uid,
+      data: firebase.firestore.FieldValue.serverTimestamp(), // Hora do servidor
+    })
+    .then(() => {
+      inputTexto.value = "";
+      rolarParaBaixo();
+    })
+    .catch((erro) => console.error("Erro ao salvar:", erro));
+}
+
+// Função para carregar mensagens em tempo real
+function carregarMensagens() {
+  // Ouve a coleção "mensagens" ordenada por data
+  db.collection("mensagens")
+    .orderBy("data", "asc")
+    .onSnapshot((snapshot) => {
+      areaMensagens.innerHTML = ""; // Limpa para reconstruir (ou você pode processar apenas as novas)
+
+      snapshot.forEach((doc) => {
+        const dados = doc.data();
+        exibirMensagem(dados);
+      });
+      rolarParaBaixo();
+    });
+}
+
+// Função para criar o HTML da mensagem
+function exibirMensagem(dados) {
+  const novaBolha = document.createElement("div");
+  const eMinha = dados.uid === usuarioAtual.uid;
+
+  novaBolha.classList.add("mensagem");
+  novaBolha.classList.add(eMinha ? "minha-mensagem" : "outra-mensagem");
+
+  // Adiciona o nome do usuário acima da mensagem
+  const spanNome = document.createElement("span");
+  spanNome.classList.add("nome-usuario");
+  spanNome.innerText = dados.nome;
+
+  novaBolha.appendChild(spanNome);
+  novaBolha.append(dados.texto);
+
+  areaMensagens.appendChild(novaBolha);
+}
+
 function rolarParaBaixo() {
-  // Define a posição da barra de rolagem igual à altura total do container
   areaMensagens.scrollTop = areaMensagens.scrollHeight;
 }
+
+// Eventos de clique e teclado
+btnEnviar.onclick = enviarMensagem;
+inputTexto.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") enviarMensagem();
+});
