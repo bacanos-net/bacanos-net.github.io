@@ -26,7 +26,8 @@ body {
 }
 
 /* --- Reusable Components --- */
-.btn-primary, #btn-enviar {
+.btn-primary,
+#btn-enviar {
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
@@ -55,7 +56,8 @@ body {
   opacity: 0.8;
 }
 
-.card-content, .chat-controls {
+.card-content,
+.chat-controls {
   padding: 20px;
   flex-grow: 1;
   display: flex;
@@ -192,7 +194,8 @@ nav ul li a:hover {
   padding: 0 20px;
 }
 
-.chat-container, #chat-container {
+.chat-container,
+#chat-container {
   background: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -202,7 +205,9 @@ nav ul li a:hover {
   overflow: hidden;
 }
 
-.chat-container { height: 600px; }
+.chat-container {
+  height: 600px;
+}
 
 #chat-container {
   flex: 1;
@@ -215,7 +220,8 @@ nav ul li a:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
-.chat-header, #chat-header {
+.chat-header,
+#chat-header {
   background: var(--dark);
   color: var(--white);
   padding: 15px 25px;
@@ -252,7 +258,8 @@ nav ul li a:hover {
   box-shadow: 0 0 8px var(--primary);
 }
 
-.chat-messages, #area-mensagens {
+.chat-messages,
+#area-mensagens {
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
@@ -261,10 +268,16 @@ nav ul li a:hover {
   gap: 15px;
 }
 
-.chat-messages { background: #f9f9f9; }
-#area-mensagens { gap: 10px; min-height: 400px; }
+.chat-messages {
+  background: #f9f9f9;
+}
+#area-mensagens {
+  gap: 10px;
+  min-height: 400px;
+}
 
-.message, .mensagem {
+.message,
+.mensagem {
   max-width: 80%;
   padding: 12px 18px;
   border-radius: 15px;
@@ -279,23 +292,29 @@ nav ul li a:hover {
   line-height: 1.4;
 }
 
-.message.received, .mensagem.recebida {
+.message.received,
+.mensagem.recebida {
   align-self: flex-start;
   background: var(--bg-light);
   color: var(--text-dark);
   border-bottom-left-radius: 2px;
 }
 
-.mensagem.recebida { background-color: var(--input-bg, var(--bg-light)); }
+.mensagem.recebida {
+  background-color: var(--input-bg, var(--bg-light));
+}
 
-.message.sent, .mensagem.enviada {
+.message.sent,
+.mensagem.enviada {
   align-self: flex-end;
   background: var(--primary);
   color: var(--text-dark);
   border-bottom-right-radius: 2px;
 }
 
-.message.sent { font-weight: 500; }
+.message.sent {
+  font-weight: 500;
+}
 .mensagem.enviada {
   background-color: var(--accent-color, var(--primary));
   color: #000;
@@ -308,21 +327,25 @@ nav ul li a:hover {
   display: block;
 }
 
-.chat-input-area, #area-input {
+.chat-input-area,
+#area-input {
   padding: 20px;
   background: var(--white);
   display: flex;
   gap: 10px;
 }
 
-.chat-input-area { border-top: 1px solid #eee; }
+.chat-input-area {
+  border-top: 1px solid #eee;
+}
 #area-input {
   padding: 15px;
   background-color: var(--border-color, #eee);
   color: #000;
 }
 
-.chat-input-area input, #input-texto {
+.chat-input-area input,
+#input-texto {
   flex-grow: 1;
   padding: 12px 18px;
   border: 2px solid var(--bg-light);
@@ -340,24 +363,31 @@ nav ul li a:hover {
   border-radius: 5px;
 }
 
-.chat-input-area input:focus, #input-texto:focus {
+.chat-input-area input:focus,
+#input-texto:focus {
   border-color: var(--primary);
 }
 
-.chat-input-area button { padding: 0 25px; }
+.chat-input-area button {
+  padding: 0 25px;
+}
 
 /* --- Scrollbar --- */
-.chat-messages::-webkit-scrollbar, #area-mensagens::-webkit-scrollbar {
+.chat-messages::-webkit-scrollbar,
+#area-mensagens::-webkit-scrollbar {
   width: 6px;
 }
-.chat-messages::-webkit-scrollbar-track, #area-mensagens::-webkit-scrollbar-track {
+.chat-messages::-webkit-scrollbar-track,
+#area-mensagens::-webkit-scrollbar-track {
   background: transparent;
 }
-.chat-messages::-webkit-scrollbar-thumb, #area-mensagens::-webkit-scrollbar-thumb {
+.chat-messages::-webkit-scrollbar-thumb,
+#area-mensagens::-webkit-scrollbar-thumb {
   background: var(--bg-light);
   border-radius: 10px;
 }
-.chat-messages::-webkit-scrollbar-thumb:hover, #area-mensagens::-webkit-scrollbar-thumb:hover {
+.chat-messages::-webkit-scrollbar-thumb:hover,
+#area-mensagens::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
 
@@ -389,7 +419,8 @@ nav ul li a:hover {
   padding: 20px;
 }
 
-.filtros input, .filtros select {
+.filtros input,
+.filtros select {
   padding: 10px;
   border: 2px solid var(--primary);
   border-radius: 8px;
@@ -433,6 +464,91 @@ footer {
     padding: 20px;
     justify-content: center;
   }
-  .games-container { padding: 20px; }
-  .banner { padding: 40px 10px; }
+  .games-container {
+    padding: 20px;
+  }
+  .banner {
+    padding: 40px 10px;
+  }
+}
+
+/* --- Tela de Login --- */
+#tela-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(
+    100vh - 200px
+  ); /* Ajuste conforme a altura do header e footer */
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 400px;
+  margin: 40px auto;
+  gap: 20px;
+}
+
+#tela-login h2 {
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+#btn-login,
+#btn-anonimo {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+  max-width: 250px;
+}
+
+#btn-login {
+  background-color: #4285f4; /* Cor do Google */
+  color: var(--white);
+}
+
+#btn-login:hover {
+  background-color: #357ae8;
+  transform: translateY(-2px);
+}
+
+#btn-anonimo {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  border: 1px solid var(--primary);
+}
+
+#btn-anonimo:hover {
+  background-color: var(--primary);
+  color: var(--dark);
+  transform: translateY(-2px);
+}
+
+/* Esconder a tela de login e mostrar o chat por padrão, ou vice-versa com JS */
+#tela-login.hidden {
+  display: none;
+}
+
+#chat-container.hidden {
+  display: none;
+}
+
+#btn-sair {
+  background-color: #dc3545; /* Cor de perigo para o botão de sair */
+  color: var(--white);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#btn-sair:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
 }
