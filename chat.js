@@ -71,10 +71,10 @@ async function enviarMensagem() {
       .collection("mensagens")
       .orderBy("data", "desc")
       .get();
-    if (snapshot.size > 100) {
+    if (snapshot.size > 10) {
       const batch = db.batch();
       // Pega todas as mensagens após a centésima mais recente
-      snapshot.docs.slice(100).forEach((doc) => {
+      snapshot.docs.slice(10).forEach((doc) => {
         batch.delete(doc.ref);
       });
       await batch.commit();
@@ -89,7 +89,7 @@ function carregarMensagens() {
   // Ouve apenas as 100 mensagens mais recentes para economizar recursos
   db.collection("mensagens")
     .orderBy("data", "desc")
-    .limit(100)
+    .limit(10)
     .onSnapshot((snapshot) => {
       // Pegamos os documentos, invertemos para mostrar do mais antigo para o mais novo na tela
       const docs = [];
