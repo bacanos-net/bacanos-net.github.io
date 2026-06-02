@@ -1,19 +1,10 @@
-// const firebaseConfig = {
-//  apiKey: "AIzaSyBTp8oCK8qI96g7ru4Ot69v9Zh8Q01jRZk",
-//  authDomain: "appclicker67.firebaseapp.com",
-//  projectId: "appclicker67",
-//  storageBucket: "appclicker67.firebasestorage.app",
-//  messagingSenderId: "747324004819",
-//  appId: "1:747324004819:web:187548329a3e35d5127726",
-//};
-
 const firebaseConfig = {
-  apiKey: "AIzaSyC31Y5BO8iRCwOCGI1kGbUwtgjV83iUIgA",
-  authDomain: "webchat-b5279.firebaseapp.com",
-  projectId: "webchat-b5279",
-  storageBucket: "webchat-b5279.firebasestorage.app",
-  messagingSenderId: "910639759114",
-  appId: "1:910639759114:web:0542db0c560a5dfb4ec4f3"
+  apiKey: "AIzaSyBTp8oCK8qI96g7ru4Ot69v9Zh8Q01jRZk",
+  authDomain: "appclicker67.firebaseapp.com",
+  projectId: "appclicker67",
+  storageBucket: "appclicker67.firebasestorage.app",
+  messagingSenderId: "747324004819",
+  appId: "1:747324004819:web:187548329a3e35d5127726",
 };
 
 firebase.initializeApp(firebaseConfig);
