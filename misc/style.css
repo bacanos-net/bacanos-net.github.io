@@ -438,6 +438,7 @@ nav ul li a:hover {
 }
 
 footer {
+  display: flex;
   background: var(--dark);
   color: var(--white);
   padding: 40px 20px;
